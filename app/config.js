@@ -1,5 +1,6 @@
-// Paste your Supabase project URL and anon (public) key. Never put the service_role key here.
+// Supabase project URL and publishable key. Both are safe in the browser (access is enforced by row-level security).
+// Never put a secret or service_role key here.
 window.VT_CONFIG = {
-  supabaseUrl: 'YOUR_SUPABASE_URL',
-  supabaseAnonKey: 'YOUR_SUPABASE_ANON_KEY'
+  supabaseUrl: 'https://uzqwhjtgssctitbctcdy.supabase.co',
+  supabaseAnonKey: 'sb_publishable_ZPTqzdtSZ-bi7b5fHwGw-Q_di5ZJ9GS'
 };
