@@ -1,7 +1,7 @@
 -- VillaTrack pilot: run once in Supabase > SQL Editor.
 -- 1) Change the email below to yours. Admins can set up the project and add people.
 create table if not exists public.vt_admins (email text primary key);
-insert into public.vt_admins (email) values ('CHANGE_ME@example.com') on conflict do nothing;
+insert into public.vt_admins (email) values ('renrasfuldi@gmail.com') on conflict do nothing;
 
 create table if not exists public.vt_profiles (
   id uuid primary key references auth.users(id) on delete cascade,

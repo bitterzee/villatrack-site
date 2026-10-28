@@ -782,6 +782,125 @@ ol.todo li.bad { box-shadow: var(--shadow), inset 4px 0 0 var(--bad); }
 }
 @media (max-width: 560px) { ol.todo li { flex-wrap: wrap; row-gap: 8px; } ol.todo .t-b { flex: 1 1 calc(100% - 46px); } ol.todo .btn { margin-left: auto; min-height: 38px; } }
 @media (max-width: 560px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tile .value { font-size: 18px; } .pagehead h1 { font-size: 24px; } .btn { min-height: 44px; } }
+
+/* ===== owner home: social feed style ===== */
+.fd { display: flex; flex-direction: column; gap: 22px; max-width: 680px; margin: 0 auto; width: 100%; }
+.fd-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.fd-hey { font-size: 26px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; }
+.fd-proj { color: var(--muted); font-weight: 600; font-size: 14px; margin-top: 2px; }
+.fd-share { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: 999px; border: 0; cursor: pointer; font-weight: 700; color: #fff; background: linear-gradient(135deg, #F58529, #DD2A7B 55%, #8134AF); }
+.fd-share svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+.fd-stories { display: flex; gap: 14px; overflow-x: auto; padding: 4px 2px 6px; scroll-snap-type: x proximity; scrollbar-width: none; margin: 0 -2px; }
+.fd-stories::-webkit-scrollbar { display: none; }
+.fd-stories > div { scroll-snap-align: start; flex: none; }
+.st { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 74px; background: none; border: 0; padding: 0; cursor: pointer; color: var(--ink); }
+.st-ring { width: 68px; height: 68px; border-radius: 50%; padding: 3px; display: grid; place-items: center; background: var(--line); transition: transform .15s ease; }
+.st:hover .st-ring { transform: scale(1.05); }
+.st-in { width: 100%; height: 100%; border-radius: 50%; background: var(--surface); border: 3px solid var(--bg); display: grid; place-items: center; }
+.st-in svg { width: 26px; height: 26px; fill: none; stroke: var(--muted); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.st.done .st-ring { background: linear-gradient(135deg, var(--accent), var(--leaf)); }
+.st.done .st-in svg { stroke: var(--accent); }
+.st.now .st-ring { background: conic-gradient(from 0deg, var(--sun), var(--coral), #DD2A7B, var(--sun)); }
+.st.now .st-in svg { stroke: var(--coral); }
+.st.bad .st-ring { background: var(--bad); }
+.st.next { opacity: .7; }
+.st-l { font-size: 11.5px; font-weight: 600; line-height: 1.2; text-align: center; max-width: 74px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+@media (prefers-reduced-motion: no-preference) { .st.now .st-ring { animation: stspin 3s linear infinite; } .st.now .st-in { animation: stspin 3s linear infinite reverse; } @keyframes stspin { to { transform: rotate(360deg); } } }
+
+.fd-hero { border-radius: 26px; overflow: hidden; background: var(--surface); box-shadow: var(--shadow); border: 1px solid var(--line); }
+.fd-art { background: var(--sky); }
+.fd-art svg { display: block; width: 100%; height: auto; }
+.fd-hero-b { padding: 16px 18px 18px; display: grid; gap: 12px; }
+@media (min-width: 760px) { .fd-hero { display: grid; grid-template-columns: 1.15fr 1fr; align-items: stretch; } .fd-art { display: flex; align-items: flex-end; } .fd-hero-b { align-content: center; padding: 22px; } }
+.fd-pct { display: flex; align-items: baseline; gap: 8px; }
+.fd-pct .num { font-size: 44px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
+.fd-pct small { font-size: 16px; font-weight: 700; color: var(--muted); }
+.fd-vibe { display: flex; gap: 12px; align-items: center; padding: 12px 14px; border-radius: 16px; background: var(--accent-soft); }
+.fd-hero.warn .fd-vibe { background: var(--sun-soft); }
+.fd-hero.bad .fd-vibe { background: var(--bad-soft); }
+.fd-emo { font-size: 28px; line-height: 1; }
+.fd-vibe b { display: block; font-size: 16px; }
+.fd-vibe span { color: var(--muted); font-size: 14px; }
+.fd-now { font-size: 14px; color: var(--muted); }
+.fd-now b { color: var(--ink); }
+
+.fd-chips { display: flex; gap: 10px; overflow-x: auto; padding: 2px; scrollbar-width: none; margin: -2px; }
+.fd-chips::-webkit-scrollbar { display: none; }
+.fd-chip { flex: none; display: flex; align-items: center; gap: 10px; padding: 10px 16px 10px 12px; border-radius: 18px; border: 1px solid var(--line); background: var(--surface); cursor: pointer; text-align: left; color: var(--ink); min-height: 56px; }
+.fd-chip .fd-ce { font-size: 22px; width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; background: var(--bg); }
+.fd-chip.good .fd-ce { background: var(--accent-soft); } .fd-chip.warn .fd-ce { background: var(--sun-soft); } .fd-chip.bad .fd-ce { background: var(--bad-soft); }
+.fd-chip b { display: block; font-size: 14.5px; white-space: nowrap; }
+.fd-chip small { display: block; font-size: 12px; color: var(--muted); white-space: nowrap; }
+
+.fd-sec { display: flex; flex-direction: column; gap: 12px; }
+.fd-sh { display: flex; align-items: center; gap: 10px; }
+.fd-sh h2 { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
+.fd-count { background: var(--coral); color: #fff; font-weight: 800; font-size: 13px; min-width: 24px; height: 24px; border-radius: 999px; display: grid; place-items: center; padding: 0 7px; }
+.fd-link { margin-left: auto; background: none; border: 0; color: var(--accent); font-weight: 700; cursor: pointer; padding: 8px 4px; font-size: 14px; }
+.fd-ev .fd-link { margin-left: auto; }
+
+.fd-cards { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 2px 2px 8px; margin: -2px; scrollbar-width: thin; }
+.fd-card { flex: 0 0 min(78%, 300px); scroll-snap-align: start; display: flex; flex-direction: column; gap: 6px; padding: 18px; border-radius: 22px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); min-width: 0; }
+.fd-card.bad { background: linear-gradient(160deg, var(--bad-soft), var(--surface) 70%); border-color: color-mix(in srgb, var(--bad) 35%, var(--line)); }
+.fd-card.warn { background: linear-gradient(160deg, var(--sun-soft), var(--surface) 70%); }
+.fd-card.info { background: linear-gradient(160deg, var(--info-soft), var(--surface) 70%); }
+.fd-cem { font-size: 30px; line-height: 1; margin-bottom: 4px; }
+.fd-card b { font-size: 16px; line-height: 1.3; }
+.fd-csub { color: var(--muted); font-size: 13.5px; flex: 1; }
+.fd-card .btn { margin-top: 8px; width: 100%; border-radius: 999px; }
+.fd-zero { display: grid; justify-items: center; text-align: center; gap: 4px; padding: 26px 18px; border-radius: 22px; background: var(--surface); border: 1px dashed var(--line); }
+.fd-zero span:first-child { font-size: 34px; }
+.fd-zero span:last-child { color: var(--muted); font-size: 14px; }
+
+.fd-feed { display: flex; flex-direction: column; gap: 12px; }
+.fd-post { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; overflow: hidden; }
+.fd-h { display: flex; align-items: center; gap: 10px; padding: 14px 16px 10px; }
+.fd-av { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 13px; color: #fff; background: linear-gradient(135deg, var(--accent), var(--info)); overflow: hidden; flex: none; }
+.fd-av img { width: 100%; height: 100%; object-fit: cover; }
+.fd-who b { display: block; font-size: 14.5px; }
+.fd-who span { font-size: 12.5px; color: var(--muted); }
+.fd-pics { display: flex; gap: 4px; overflow-x: auto; scroll-snap-type: x mandatory; }
+.fd-pics img { flex: 0 0 86%; aspect-ratio: 4 / 3; object-fit: cover; scroll-snap-align: start; background: var(--bg); max-width: 86%; }
+.fd-pics.one img { flex-basis: 100%; max-width: 100%; }
+.fd-txt { margin: 0; padding: 12px 16px 4px; white-space: pre-line; }
+.fd-re { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 12px 14px; }
+.fd-re button { display: inline-flex; align-items: center; gap: 4px; min-height: 36px; padding: 0 10px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; font-size: 17px; line-height: 1; color: var(--ink); transition: transform .12s ease; }
+.fd-re button:active { transform: scale(1.2); }
+.fd-re button.on { background: var(--accent-soft); border-color: var(--accent); }
+.fd-re small { font-size: 12px; font-weight: 700; }
+.fd-re .fd-ask { margin-left: auto; font-size: 13px; font-weight: 700; color: var(--accent); }
+.fd-ev { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 18px; background: var(--surface); border: 1px solid var(--line-soft); }
+.fd-eve { font-size: 22px; width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center; background: var(--bg); flex: none; }
+.fd-ev.good .fd-eve { background: var(--accent-soft); } .fd-ev.bad .fd-eve { background: var(--bad-soft); }
+.fd-ev b { display: block; font-size: 14.5px; line-height: 1.3; }
+.fd-ev span { font-size: 12.5px; color: var(--muted); }
+.fd-ev > div { min-width: 0; }
+.fd-more { align-self: center; }
+
+/* story viewer */
+.sv-bg { position: fixed; inset: 0; z-index: 70; background: rgba(5,14,12,.72); border: 0; }
+.sv { position: fixed; z-index: 71; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(420px, calc(100vw - 24px)); max-height: calc(100vh - 40px); overflow-y: auto; border-radius: 26px; padding: 14px 18px 22px; color: #fff; background: linear-gradient(165deg, #0B7F70 0%, #10364A 55%, #2A1740 100%); box-shadow: 0 30px 60px -20px rgba(0,0,0,.6); }
+.sv-bars { display: flex; gap: 4px; }
+.sv-bars span { flex: 1; height: 3px; border-radius: 3px; background: rgba(255,255,255,.3); }
+.sv-bars .past, .sv-bars .cur { background: #fff; }
+.sv-top { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+.sv-n { font-weight: 700; font-size: 13px; opacity: .85; }
+.sv-x { background: rgba(255,255,255,.15); border: 0; color: #fff; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; font-size: 15px; }
+.sv-body { display: grid; gap: 10px; padding: 12px 34px 4px; justify-items: start; }
+.sv-em { font-size: 44px; line-height: 1; }
+.sv h2 { color: #fff; font-size: 26px; font-weight: 800; letter-spacing: -0.02em; }
+.sv-amt { font-size: 22px; font-weight: 800; }
+.sv-amt small { font-size: 14px; opacity: .8; font-weight: 600; }
+.sv-rule { margin: 0; font-size: 14.5px; opacity: .92; }
+.sv-pics { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; width: 100%; }
+.sv-pics img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px; }
+.sv-empty { margin: 0; opacity: .75; font-size: 14px; }
+.sv-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 36px; height: 56px; border: 0; background: rgba(255,255,255,.12); color: #fff; font-size: 28px; cursor: pointer; border-radius: 12px; }
+.sv-nav.prev { left: 6px; } .sv-nav.next { right: 6px; }
+.sv-nav:disabled { opacity: .25; cursor: default; }
+.sv .pill { background: rgba(255,255,255,.18); color: #fff; }
+@media (max-width: 480px) { .fd-hey { font-size: 23px; } .fd-share span { display: none; } .fd-share { padding: 0 12px; } .sv-body { padding: 12px 30px 4px; } }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="config.js?v=2"></script>
@@ -1124,7 +1243,7 @@ ol.todo li.bad { box-shadow: var(--shadow), inset 4px 0 0 var(--bad); }
       return '<div class="panel empty"><strong>This project isn’t set up yet</strong>The admin needs to enter the contract and milestones first.</div>';
     }
     const map = {
-      'owner:overview': ownerOverview, 'owner:changes': changesView, 'owner:log': logView, 'owner:docs': docsView,
+      'owner:overview': ownerFeedHome, 'owner:changes': changesView, 'owner:log': logView, 'owner:docs': docsView,
       'contractor:work': contractorWork, 'contractor:log': logView, 'contractor:changes': changesView,
       'inspector:queue': inspectorQueue, 'inspector:log': logView,
       'owner:schedule': scheduleView, 'contractor:schedule': scheduleView, 'inspector:schedule': scheduleView, 'admin:schedule': scheduleView,
@@ -4050,6 +4169,7 @@ ol.todo li.bad { box-shadow: var(--shadow), inset 4px 0 0 var(--bad); }
   async function onAct(el) {
     const a = el.dataset.act, id = el.dataset.id;
     if (await onActUX(el)) return;
+    if (await onActFeed(el)) return;
     if (await onActP1(el)) return;
     if (await onActAI(el)) return;
     if (await onActCT(el)) return;
@@ -4428,6 +4548,185 @@ ol.todo li.bad { box-shadow: var(--shadow), inset 4px 0 0 var(--bad); }
     render();
   }
   window.__vtGo = (t) => { S.tab = t; S.enter = true; render(); };
+
+  // ===================== owner home: social feed style =====================
+  const FEED_REACTS = ['👍', '❤️', '🔥', '👀', '😬'];
+  function ago(iso) {
+    const t = new Date(iso).getTime(); if (!t) return '';
+    const s = Math.max(0, (Date.now() - t) / 1000), id = lang() === 'id';
+    if (s < 60) return id ? 'baru saja' : 'just now';
+    if (s < 3600) return Math.floor(s / 60) + (id ? 'm' : 'm');
+    if (s < 86400) return Math.floor(s / 3600) + (id ? 'j' : 'h');
+    if (s < 86400 * 7) return Math.floor(s / 86400) + (id ? 'h' : 'd');
+    return dshort(dnum(String(iso).slice(0, 10)));
+  }
+  function nameOf(id) { const p = S.names[id]; return (p && p.name) || (id === myId() ? 'You' : 'Someone'); }
+  function initials(id) { const n = nameOf(id).trim(); return (n.split(/\s+/).map((w) => w.charAt(0)).join('').slice(0, 2) || '?').toUpperCase(); }
+  function avatar(id, cls) { const p = S.names[id]; return '<span class="fd-av ' + (cls || '') + '" aria-hidden="true">' + (p && p.avatarUrl ? '<img alt="" src="' + esc(p.avatarUrl) + '">' : esc(initials(id))) + '</span>'; }
+  function logStreak() {
+    const days = new Set(S.logs.map((l) => String(l.at || '').slice(0, 10)).filter(Boolean));
+    let n = 0; const d = new Date();
+    if (!days.has(d.toISOString().slice(0, 10))) d.setDate(d.getDate() - 1);
+    while (days.has(d.toISOString().slice(0, 10))) { n++; d.setDate(d.getDate() - 1); }
+    return n;
+  }
+  function feedVibe(H, todos) {
+    const reds = [];
+    if (H.disputes.length) reds.push('a payment is in dispute');
+    if (H.time.tone === 'bad') reds.push('the build is ' + H.time.ans);
+    if (H.money.tone === 'bad') reds.push('a money transfer is overdue');
+    if (H.quality.failedNow.length) reds.push('some work failed a check');
+    if (H.quality.overdue) reds.push(H.quality.overdue + ' repair' + (H.quality.overdue === 1 ? ' is' : 's are') + ' late');
+    const tone = reds.length ? 'bad' : todos.length || H.time.tone === 'warn' || H.quality.tone === 'warn' ? 'warn' : 'good';
+    const head = tone === 'bad' ? 'Heads up, this needs you' : tone === 'warn' ? 'Looking good, a few things for you' : 'All good, nothing for you to do';
+    const sub = reds.length ? 'Because ' + reds.slice(0, 2).join(' and ') + '.' : todos.length ? todos.length + ' quick thing' + (todos.length === 1 ? '' : 's') + ' below.' : 'Your builder is working. Sit back.';
+    return { tone: tone, head: head, sub: sub, emoji: tone === 'bad' ? '🚨' : tone === 'warn' ? '👀' : '✨' };
+  }
+  function feedItems() {
+    const out = [];
+    S.logs.forEach((l) => out.push({ kind: 'post', at: l.at, log: l }));
+    S.milestones.forEach((m) => {
+      if (m.startedAt) out.push({ kind: 'event', at: m.startedAt, e: '🚧', txt: 'Work started on ' + m.name, by: m.startedBy });
+      if (m.submittedAt) out.push({ kind: 'event', at: m.submittedAt, e: '🙋', txt: 'Builder says ' + m.name + ' is done', by: m.submittedBy, ms: m.id });
+      if (m.scheduledAt && m.scheduledFor) out.push({ kind: 'event', at: m.scheduledAt, e: '📅', txt: 'Engineer visit booked for ' + dshort(dnum(String(m.scheduledFor).slice(0, 10))), sub: m.name, by: m.scheduledBy, ms: m.id });
+      if (m.inspection && m.inspection.at) out.push({ kind: 'event', at: m.inspection.at, e: m.inspection.result === 'fail' ? '❌' : '✅', txt: (m.inspection.result === 'fail' ? 'Engineer found problems in ' : 'Engineer passed ') + m.name, by: m.inspection.by, ms: m.id, tone: m.inspection.result === 'fail' ? 'bad' : 'good' });
+      if (m.releasedAt) out.push({ kind: 'event', at: m.releasedAt, e: '💸', txt: 'Payment sent for ' + m.name, sub: ctype() === 'costplus' ? '' : short(msAmount(m)), by: m.releasedBy, ms: m.id, tone: 'good' });
+    });
+    return out.filter((x) => x.at).sort((a, b) => String(b.at).localeCompare(String(a.at)));
+  }
+  function storyRing(m, i, cur) {
+    const done = DONE_ST.indexOf(m.status) >= 0, now = cur && cur.id === m.id, bad = m.status === 'failed' || m.status === 'disputed';
+    const cls = done ? 'done' : bad ? 'bad' : now ? 'now' : 'next';
+    const icon = BADGES[i] ? '<svg viewBox="0 0 24 24"><path d="' + BADGES[i][1] + '"/></svg>' : '';
+    return '<button type="button" class="st ' + cls + '" data-act="story" data-id="' + esc(m.id) + '" aria-label="' + esc(m.name + ', ' + (STATUS[m.status] || [m.status])[0]) + '"><span class="st-ring"><span class="st-in">' + icon + '</span></span><span class="st-l">' + esc(m.name) + '</span></button>';
+  }
+  function storyView() {
+    const steps = S.milestones.slice().sort((a, b) => a.seq - b.seq);
+    const i = steps.findIndex((m) => m.id === S.story); if (i < 0) return '';
+    const m = steps[i], st = STATUS[m.status] || [m.status, ''];
+    const pics = (m.submitPhotos || []).slice();
+    S.logs.filter((l) => l.phase === m.id).forEach((l) => (l.photos || []).forEach((p) => pics.push(p)));
+    if (m.inspection && m.inspection.photos) m.inspection.photos.forEach((p) => pics.push(p));
+    const done = DONE_ST.indexOf(m.status) >= 0;
+    let h = '<div class="sv-bg" data-act="story-close"></div><div class="sv" role="dialog" aria-modal="true" aria-label="' + esc(m.name) + '">';
+    h += '<div class="sv-bars">' + steps.map((x, k) => '<span class="' + (k < i ? 'past' : k === i ? 'cur' : '') + '"></span>').join('') + '</div>';
+    h += '<div class="sv-top"><span class="sv-n">' + (i + 1) + '/' + steps.length + '</span><button type="button" class="sv-x" data-act="story-close" aria-label="Close">✕</button></div>';
+    h += '<div class="sv-body">';
+    h += '<div class="sv-em">' + (done ? '✅' : m.status === 'failed' ? '❌' : m.status === 'not_started' ? '⏳' : '🚧') + '</div>';
+    h += '<h2>' + esc(m.name) + '</h2><span class="pill ' + esc(st[1]) + '">' + esc(st[0]) + '</span>';
+    if (ctype() !== 'costplus') h += '<div class="sv-amt num">' + esc(short(msAmount(m))) + ' <small>· ' + esc(String(m.pct || 0)) + '%</small></div>';
+    if (m.rule) h += '<p class="sv-rule"><b>Done means:</b> ' + esc(m.rule) + '</p>';
+    if (m.inspection && m.inspection.at) h += '<p class="sv-rule"><b>' + (m.inspection.result === 'fail' ? 'Engineer: needs fixing' : 'Engineer: passed') + '</b>' + (m.inspection.notes ? ' · ' + esc(clip(m.inspection.notes, 160)) : '') + '</p>';
+    if (m.submitNote) h += '<p class="sv-rule"><b>Builder:</b> ' + esc(clip(m.submitNote, 160)) + '</p>';
+    if (pics.length) h += '<div class="sv-pics">' + pics.slice(0, 6).map((p) => '<img alt="Site photo" loading="lazy" src="' + __vtBlob(p) + '">').join('') + '</div>';
+    else h += '<p class="sv-empty">' + (m.status === 'not_started' ? 'Coming up. Photos land here once work starts.' : 'No photos yet.') + '</p>';
+    h += '</div>';
+    h += '<button type="button" class="sv-nav prev" data-act="story-nav" data-id="-1" aria-label="Previous stage"' + (i === 0 ? ' disabled' : '') + '>‹</button><button type="button" class="sv-nav next" data-act="story-nav" data-id="1" aria-label="Next stage"' + (i === steps.length - 1 ? ' disabled' : '') + '>›</button>';
+    return h + '</div>';
+  }
+  function feedPost(l) {
+    const mine = (l.reactions || {})[myId()] || null, counts = {};
+    Object.values(l.reactions || {}).forEach((e) => { counts[e] = (counts[e] || 0) + 1; });
+    const ms = l.phase ? S.milestones.find((m) => m.id === l.phase) : null;
+    let h = '<article class="fd-post" data-ak="post-' + esc(l.id) + '"><header class="fd-h">' + avatar(l.by) + '<div class="fd-who"><b class="noi18n">' + esc(nameOf(l.by)) + '</b><span>' + esc(ROLES[l.role] ? ROLES[l.role].label : 'Team') + (ms ? ' · ' + esc(ms.name) : '') + ' · ' + esc(ago(l.at)) + '</span></div></header>';
+    if ((l.photos || []).length) h += '<div class="fd-pics' + (l.photos.length === 1 ? ' one' : '') + '">' + l.photos.slice(0, 8).map((p) => '<img alt="Site photo" loading="lazy" src="' + __vtBlob(p) + '">').join('') + '</div>';
+    if (l.note) h += '<p class="fd-txt">' + esc(clip(l.note, 400)) + '</p>';
+    h += '<div class="fd-re" role="group" aria-label="React">' + FEED_REACTS.map((e) => '<button type="button" class="' + (mine === e ? 'on' : '') + '" data-act="react" data-id="' + esc(l.id) + '" data-emo="' + e + '" aria-pressed="' + (mine === e) + '">' + e + (counts[e] ? '<small class="num">' + counts[e] + '</small>' : '') + '</button>').join('') + '<button type="button" class="fd-ask" data-act="tab" data-tab="log">Ask</button></div>';
+    return h + '</article>';
+  }
+  function ownerFeedHome() {
+    const p = S.project, H = ownerHealth(), todos = ownerTodos(), V = feedVibe(H, todos);
+    const steps = S.milestones.slice().sort((a, b) => a.seq - b.seq);
+    const first = (S.me && S.me.name ? S.me.name.split(' ')[0] : '');
+    let h = '<div class="fd">';
+    // top bar
+    h += '<div class="fd-top"><div><div class="fd-hey">' + (lang() === 'id' ? 'Hai' : 'Hey') + (first ? ' <span class="noi18n">' + esc(first) + '</span>' : '') + ' 👋</div><div class="fd-proj">' + esc(p.name || 'Your villa') + (p.location ? ' · ' + esc(p.location.split(',')[0]) : '') + '</div></div>' +
+      '<button type="button" class="fd-share" data-act="share-open" aria-expanded="' + !!S.share.open + '"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg><span>Share</span></button></div>';
+    if (S.share.open) h += sharePanel();
+    // stories
+    h += '<div class="fd-stories" role="list" aria-label="Building stages">' + steps.map((m, i) => '<div role="listitem">' + storyRing(m, i, H.cur) + '</div>').join('') + '</div>';
+    // hero
+    h += '<section class="fd-hero ' + V.tone + '" data-ak="vibe-' + V.tone + '"><div class="fd-art">' + villaArt() + '</div><div class="fd-hero-b"><div class="fd-pct"><span class="num">' + H.built + '%</span><small>built</small></div><div class="fd-vibe"><span class="fd-emo" aria-hidden="true">' + V.emoji + '</span><div><b>' + esc(V.head) + '</b><span>' + esc(V.sub) + '</span></div></div>' +
+      '<div class="fd-now">Now: <b>' + esc(H.cur ? H.cur.name : 'All done 🎉') + '</b>' + (H.cur ? ' · step ' + H.cur.seq + ' of ' + steps.length : '') + '</div></div></section>';
+    // stat chips
+    const Mo = H.money, Q = H.quality, streak = logStreak();
+    const chip = (tone, e, big, small, tab) => '<button type="button" class="fd-chip ' + tone + '" data-act="tab" data-tab="' + tab + '"><span class="fd-ce" aria-hidden="true">' + e + '</span><span><b>' + big + '</b><small>' + small + '</small></span></button>';
+    h += '<div class="fd-chips">' +
+      chip(H.time.tone, '⏱️', esc(H.time.ans), esc(H.time.sub), 'schedule') +
+      chip(Mo.tone, '💸', esc(short(Mo.paid)), 'paid of ' + esc(short(Mo.total)), 'money') +
+      chip(Q.tone, '🔧', Q.od ? Q.od + ' to fix' : 'No fixes', Q.insp ? Q.passed + '/' + Q.insp + ' checks passed' : 'No checks yet', 'defects') +
+      (streak > 1 ? chip('good', '🔥', streak + '-day streak', 'builder posting daily', 'log') : '') +
+      '</div>';
+    // needs you
+    h += '<section class="fd-sec"><div class="fd-sh"><h2>Needs you</h2>' + (todos.length ? '<span class="fd-count num">' + todos.length + '</span>' : '') + '</div>';
+    if (todos.length) {
+      const em = (x) => /^Approve|^Sign off/.test(x.txt) ? '✅' : /^Choose/.test(x.txt) ? '🎨' : /^Send money/.test(x.txt) ? '💸' : /^Decide/.test(x.txt) ? '🤔' : /^Check/.test(x.txt) ? '🧱' : /^Confirm/.test(x.txt) ? '🔧' : '📌';
+      h += '<div class="fd-cards">' + todos.map((x, i) => '<article class="fd-card ' + x.tone + '" data-ak="todo-' + i + '-' + esc(x.txt.slice(0, 20)) + '"><span class="fd-cem" aria-hidden="true">' + em(x) + '</span><b>' + esc(x.txt) + '</b><span class="fd-csub">' + esc(x.sub) + '</span><button type="button" class="btn primary" data-act="' + esc(x.act) + '"' + (x.act === 'tab' ? ' data-tab="' + esc(x.id) + '"' : ' data-id="' + esc(x.id) + '"') + '>' + esc(x.btn || 'Open') + '</button></article>').join('') + '</div>';
+    } else h += '<div class="fd-zero"><span aria-hidden="true">🌴</span><b>You’re all caught up</b><span>We’ll ping you when something needs your OK.</span></div>';
+    h += '</section>';
+    // payments waiting (targets for the cards above)
+    const decisions = S.milestones.filter((m) => m.status === 'inspected' || (m.status === 'submitted' && !m.needsInspection));
+    if (decisions.length) h += '<section class="fd-sec"><div class="fd-sh"><h2>Payments waiting for your OK</h2></div>' + decisions.map((m) => '<div id="ms-' + esc(m.id) + '">' + msCard(m, true) + '</div>').join('') + '</section>';
+    // feed
+    const items = feedItems(), lim = S.open['feed-all'] ? 60 : 8;
+    h += '<section class="fd-sec"><div class="fd-sh"><h2>From the site</h2><button type="button" class="fd-link" data-act="tab" data-tab="log">All updates</button></div>';
+    if (items.length) {
+      h += '<div class="fd-feed">' + items.slice(0, lim).map((x) => x.kind === 'post' ? feedPost(x.log) :
+        '<div class="fd-ev ' + (x.tone || '') + '"><span class="fd-eve" aria-hidden="true">' + x.e + '</span><div><b>' + esc(x.txt) + '</b><span>' + (x.sub ? esc(x.sub) + ' · ' : '') + esc(ago(x.at)) + '</span></div>' + (x.ms ? '<button type="button" class="fd-link" data-act="story" data-id="' + esc(x.ms) + '">View</button>' : '') + '</div>').join('') + '</div>';
+      if (items.length > lim) h += '<button type="button" class="btn quiet fd-more" data-act="open" data-key="feed-all">Show more</button>';
+    } else h += '<div class="fd-zero"><span aria-hidden="true">📸</span><b>No updates yet</b><span>Your builder’s photos and notes will show up here, like a feed.</span></div>';
+    h += '</section>';
+    if (S.sample || S.digests.length) h += digestBlock();
+    const k = 'ov-all';
+    h += '<section class="fd-sec"><details class="rep big" data-key="' + k + '"' + (S.open[k] ? ' open' : '') + '><summary>All payment steps in detail</summary>' + S.milestones.filter((m) => decisions.indexOf(m) < 0).map((m) => msCard(m, false)).join('') + '</details></section>';
+    h += '</div>';
+    if (S.story) h += storyView();
+    return h;
+  }
+  async function onActFeed(el) {
+    const a = el.dataset.act;
+    if (a === 'story') { S.story = el.dataset.id; render(); return true; }
+    if (a === 'story-close') { S.story = null; render(); return true; }
+    if (a === 'story-nav') {
+      const steps = S.milestones.slice().sort((x, y) => x.seq - y.seq), i = steps.findIndex((m) => m.id === S.story) + Number(el.dataset.id);
+      if (steps[i]) { S.story = steps[i].id; render(); } return true;
+    }
+    if (a === 'react') {
+      const l = S.logs.find((x) => x.id === el.dataset.id); if (!l || !myId()) return true;
+      const r = Object.assign({}, l.reactions || {}), e = el.dataset.emo;
+      if (r[myId()] === e) delete r[myId()]; else r[myId()] = e;
+      l.reactions = r; render();
+      try { await S.db.doc('logs/' + l.id).update({ reactions: r }); } catch (err) { fail(err); }
+      return true;
+    }
+    return false;
+  }
+  document.addEventListener('keydown', (e) => {
+    if (!S.story) return;
+    if (e.key === 'Escape') { S.story = null; render(); }
+    else if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { const steps = S.milestones.slice().sort((x, y) => x.seq - y.seq), i = steps.findIndex((m) => m.id === S.story) + (e.key === 'ArrowRight' ? 1 : -1); if (steps[i]) { S.story = steps[i].id; render(); } }
+  });
+  Object.assign(I18N, {
+    'Share': 'Bagikan', 'Needs you': 'Perlu Anda', 'From the site': 'Dari lokasi', 'All updates': 'Semua update', 'Show more': 'Lihat lagi',
+    'Payments waiting for your OK': 'Pembayaran menunggu persetujuan Anda', 'Ask': 'Tanya', 'View': 'Lihat', 'built': 'terbangun',
+    'Heads up, this needs you': 'Perhatian, ini perlu Anda', 'Looking good, a few things for you': 'Lancar, ada beberapa hal untuk Anda', 'All good, nothing for you to do': 'Semua aman, tidak ada yang perlu Anda lakukan',
+    'Your builder is working. Sit back.': 'Kontraktor sedang bekerja. Santai saja.',
+    'You’re all caught up': 'Semua sudah beres', 'We’ll ping you when something needs your OK.': 'Kami kabari saat ada yang perlu persetujuan Anda.',
+    'No updates yet': 'Belum ada update', 'Your builder’s photos and notes will show up here, like a feed.': 'Foto dan catatan kontraktor akan muncul di sini, seperti feed.',
+    'No fixes': 'Tidak ada perbaikan', 'No checks yet': 'Belum ada pemeriksaan', 'builder posting daily': 'kontraktor update setiap hari',
+    'Done means:': 'Selesai berarti:', 'Builder:': 'Kontraktor:', 'Engineer: passed': 'Insinyur: lolos', 'Engineer: needs fixing': 'Insinyur: perlu perbaikan',
+    'Coming up. Photos land here once work starts.': 'Segera. Foto muncul di sini setelah pekerjaan dimulai.', 'No photos yet.': 'Belum ada foto.',
+    'All done 🎉': 'Semua selesai 🎉', 'Now:': 'Sekarang:'
+  });
+  I18N_RX.push(
+    [/^(\d+) quick things? below\.$/, '$1 hal singkat di bawah.'],
+    [/^Work started on (.+)$/, 'Pekerjaan dimulai: $1'], [/^Builder says (.+) is done$/, 'Kontraktor bilang $1 selesai'],
+    [/^Engineer visit booked for (.+)$/, 'Kunjungan insinyur dijadwalkan $1'], [/^Engineer passed (.+)$/, 'Insinyur meloloskan $1'],
+    [/^Engineer found problems in (.+)$/, 'Insinyur menemukan masalah di $1'], [/^Payment sent for (.+)$/, 'Pembayaran dikirim untuk $1'],
+    [/^(\d+)-day streak$/, '$1 hari berturut-turut'], [/^(\d+) to fix$/, '$1 perlu diperbaiki'], [/^(\d+)\/(\d+) checks passed$/, '$1/$2 pemeriksaan lolos'],
+    [/^paid of (.+)$/, 'dibayar dari $1'], [/^step (\d+) of (\d+)$/, 'tahap $1 dari $2']
+  );
+
   boot();
 })();
 </script>
