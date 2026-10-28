@@ -104,10 +104,14 @@
     var o = {}; ids.forEach(function (i) { o[i] = { id: i, name: names[i] || '', guest: false }; }); return o;
   }
 
+  var session0 = null;
   async function start(session) {
-    var u = session.user;
+    var u = session.user; session0 = session;
     var name = (u.user_metadata && u.user_metadata.name) || (u.email || '').split('@')[0];
-    await sb.from('vt_profiles').upsert({ id: u.id, email: u.email, name: name });
+    var reqRole = u.user_metadata && u.user_metadata.role_request;
+    var prof = { id: u.id, email: u.email, name: name };
+    if (reqRole === 'owner' || reqRole === 'contractor' || reqRole === 'inspector') prof.requested_role = reqRole;
+    await sb.from('vt_profiles').upsert(prof);
     var adm = await sb.rpc('vt_is_admin');
     me = { id: u.id, name: name, email: u.email, canEdit: !!adm.data, guest: false };
     names[u.id] = name;
@@ -117,6 +121,12 @@
       me: function () { return Promise.resolve(Object.assign({}, me)); }, id: function () { return Promise.resolve(me.id); },
       isOwner: function () { return me.canEdit; }, canEdit: function () { return me.canEdit; }, can: function () { return true; },
       profiles: profiles,
+      requests: async function () {
+        var r = await sb.from('vt_profiles').select('id,name,email,requested_role,created_at').not('requested_role', 'is', null).order('created_at', { ascending: false }).limit(100);
+        return (r.data || []).filter(function (p) { return p.id !== me.id && !(store.members || {})[p.id]; }).map(function (p) { names[p.id] = p.name || p.email; return p; });
+      },
+      declineRequest: async function (id) { var r = await sb.from('vt_profiles').update({ requested_role: null }).eq('id', id); if (r.error) throw mapErr(r.error); },
+      myRequest: function () { return (session0 && session0.user && session0.user.user_metadata && session0.user.user_metadata.role_request) || null; },
       search: async function (q) {
         var s = sb.from('vt_profiles').select('id,name,email').limit(20);
         if (q) s = s.or('email.ilike.%' + q.replace(/[%,()]/g, '') + '%,name.ilike.%' + q.replace(/[%,()]/g, '') + '%');
@@ -139,34 +149,92 @@
     resolveCaps({ db: db, user: user, assets: assets });
   }
 
-  // ---------- sign-in screen ----------
-  function gate(msg) {
-    var g = document.getElementById('vt-gate');
-    g.hidden = false;
-    if (msg) { var s = document.getElementById('vt-gate-msg'); s.textContent = msg; }
+  // ---------- sign-up / sign-in screen ----------
+  var $g = function (id) { return document.getElementById(id); };
+  function gate(msg, tone) {
+    $g('vt-gate').hidden = false;
+    var s = $g('vt-gate-msg'); s.textContent = msg || ''; s.className = 'vt-msg' + (tone ? ' ' + tone : '');
+  }
+  function mode(m) {
+    ['signin', 'signup', 'forgot', 'reset'].forEach(function (k) { $g('vt-f-' + k).hidden = k !== m; });
+    $g('vt-tabs').hidden = m === 'forgot' || m === 'reset';
+    $g('vt-tab-in').setAttribute('aria-selected', m === 'signin'); $g('vt-tab-up').setAttribute('aria-selected', m === 'signup');
+    gate('');
+    var f = $g('vt-f-' + m).querySelector('input'); if (f) setTimeout(function () { f.focus(); }, 30);
   }
   function showBar() {
-    var b = document.getElementById('vt-userbar');
+    var b = $g('vt-userbar');
     b.querySelector('span').textContent = 'Signed in as ' + me.email;
     b.hidden = false;
   }
+  var okEmail = function (e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); };
+  function friendly(err) {
+    var m = (err && err.message) || '';
+    if (/Invalid login credentials/i.test(m)) return 'That email and password don’t match. Try again, or reset your password.';
+    if (/Email not confirmed/i.test(m)) return 'Please confirm your email first. Check your inbox for the link from VillaTrack.';
+    if (/already registered|already exists/i.test(m)) return 'There’s already an account with this email. Sign in instead.';
+    if (/rate limit|too many/i.test(m)) return 'Too many tries. Please wait a few minutes and try again.';
+    if (/Password should be/i.test(m)) return 'Choose a longer password (at least 8 characters).';
+    return m || 'Something went wrong. Please try again.';
+  }
   document.addEventListener('DOMContentLoaded', function () {
-    var g = document.getElementById('vt-gate');
-    if (!sb) { gate(); document.getElementById('vt-gate-form').hidden = true; document.getElementById('vt-gate-msg').textContent = 'This app isn’t connected to its database yet. Add the Supabase URL and anon key in config.js.'; resolveCaps(null); return; }
-    document.getElementById('vt-gate-form').addEventListener('submit', async function (e) {
+    if (!sb) { gate('This app isn’t connected to its database yet. Add the Supabase URL and key in config.js.', 'err'); ['vt-tabs', 'vt-f-signin', 'vt-f-signup'].forEach(function (k) { $g(k).hidden = true; }); resolveCaps(null); return; }
+    $g('vt-tab-in').addEventListener('click', function () { mode('signin'); });
+    $g('vt-tab-up').addEventListener('click', function () { mode('signup'); });
+    $g('vt-to-forgot').addEventListener('click', function () { $g('vt-fg-email').value = $g('vt-in-email').value; mode('forgot'); });
+    $g('vt-back').addEventListener('click', function () { mode('signin'); });
+    document.querySelectorAll('[data-vt-eye]').forEach(function (b) { b.addEventListener('click', function () { var i = $g(b.dataset.vtEye); var show = i.type === 'password'; i.type = show ? 'text' : 'password'; b.textContent = show ? 'Hide' : 'Show'; b.setAttribute('aria-pressed', show); }); });
+    $g('vt-f-signin').addEventListener('submit', async function (e) {
       e.preventDefault();
-      var email = document.getElementById('vt-email').value.trim(), btn = document.getElementById('vt-send');
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { gate('Enter a valid email address.'); return; }
-      btn.disabled = true; gate('Sending…');
-      var r = await sb.auth.signInWithOtp({ email: email, options: { emailRedirectTo: location.origin + location.pathname } });
+      var email = $g('vt-in-email').value.trim(), pw = $g('vt-in-pw').value, btn = e.target.querySelector('button[type=submit]');
+      if (!okEmail(email)) return gate('Enter a valid email address.', 'err');
+      if (!pw) return gate('Enter your password.', 'err');
+      btn.disabled = true; gate('Signing in…');
+      var r = await sb.auth.signInWithPassword({ email: email, password: pw });
       btn.disabled = false;
-      gate(r.error ? 'That didn’t send: ' + r.error.message : 'Check your email for a sign-in link from VillaTrack. Open it on this device.');
+      if (r.error) gate(friendly(r.error), 'err');
     });
-    document.getElementById('vt-signout').addEventListener('click', async function () { await sb.auth.signOut(); location.reload(); });
-    var started = false;
+    $g('vt-f-signup').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      var name = $g('vt-up-name').value.trim(), email = $g('vt-up-email').value.trim(), pw = $g('vt-up-pw').value, role = (document.querySelector('input[name="vt-role"]:checked') || {}).value, btn = e.target.querySelector('button[type=submit]');
+      if (!name) return gate('Add your name so your team knows who you are.', 'err');
+      if (!okEmail(email)) return gate('Enter a valid email address.', 'err');
+      if (pw.length < 8) return gate('Choose a password with at least 8 characters.', 'err');
+      if (!role) return gate('Choose what you do on this build: owner, contractor or inspector.', 'err');
+      btn.disabled = true; gate('Creating your account…');
+      var r = await sb.auth.signUp({ email: email, password: pw, options: { data: { name: name, role_request: role }, emailRedirectTo: location.origin + location.pathname } });
+      btn.disabled = false;
+      if (r.error) return gate(friendly(r.error), 'err');
+      if (r.data && r.data.user && r.data.user.identities && r.data.user.identities.length === 0) return gate('There’s already an account with this email. Sign in instead.', 'err');
+      if (!r.data.session) { mode('signin'); $g('vt-in-email').value = email; gate('Almost done. We sent a confirmation link to ' + email + '. Open it, then sign in here with your password.', 'ok'); }
+    });
+    $g('vt-f-forgot').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      var email = $g('vt-fg-email').value.trim(), btn = e.target.querySelector('button[type=submit]');
+      if (!okEmail(email)) return gate('Enter a valid email address.', 'err');
+      btn.disabled = true; gate('Sending…');
+      var r = await sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname });
+      btn.disabled = false;
+      gate(r.error ? friendly(r.error) : 'If there’s an account for ' + email + ', a reset link is on its way. Open it on this device.', r.error ? 'err' : 'ok');
+    });
+    $g('vt-f-reset').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      var pw = $g('vt-rs-pw').value, btn = e.target.querySelector('button[type=submit]');
+      if (pw.length < 8) return gate('Choose a password with at least 8 characters.', 'err');
+      btn.disabled = true;
+      var r = await sb.auth.updateUser({ password: pw });
+      btn.disabled = false;
+      if (r.error) return gate(friendly(r.error), 'err');
+      recovering = false; $g('vt-gate').hidden = true;
+      var s2 = await sb.auth.getSession(); if (s2.data.session && !started) begin(s2.data.session);
+    });
+    $g('vt-signout').addEventListener('click', async function () { await sb.auth.signOut(); location.reload(); });
+    var started = false, recovering = /type=recovery/.test(location.hash);
+    function begin(session) { started = true; $g('vt-gate').hidden = true; start(session).catch(function (e) { console.error(e); started = false; gate('Couldn’t load the project: ' + (e.message || 'unknown error') + '. Reload to try again.', 'err'); }); }
     sb.auth.onAuthStateChange(function (ev, session) {
-      if (session && !started) { started = true; g.hidden = true; start(session).catch(function (e) { console.error(e); started = false; gate('Couldn’t load the project: ' + (e.message || 'unknown error') + '. Reload to try again.'); }); }
+      if (ev === 'PASSWORD_RECOVERY') { recovering = true; mode('reset'); $g('vt-gate').hidden = false; return; }
+      if (session && !started && !recovering) begin(session);
     });
-    sb.auth.getSession().then(function (r) { if (!r.data.session) gate(); });
+    sb.auth.getSession().then(function (r) { if (!r.data.session) { mode(/signup/.test(location.hash) ? 'signup' : 'signin'); } else if (recovering) { mode('reset'); gate(''); } });
   });
 })();

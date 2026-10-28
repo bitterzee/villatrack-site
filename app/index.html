@@ -1042,6 +1042,7 @@ ol.steps li.done .sd, ol.wsteps-bar li.done .sd, ul.checks li.ok .ck { backgroun
 .st-tick { background: var(--good); }
 .fd-meter span { background: linear-gradient(90deg, var(--sea-strong), var(--sea)); }
 .fd-hero .fd-vibe { background: var(--sea-soft); }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
 /* ===== Bali backdrop: sunrise sky, palm, frangipani, rice-terrace lines (decorative, behind everything) ===== */
 :root { --bali-sky: linear-gradient(180deg, #FFF3E2 0px, #FDF7EF 220px, #F2F9FC 620px); --bali-sun: radial-gradient(520px 360px at 8% -60px, rgba(246,185,26,.22), transparent 70%); --bali-line: #004878; --bali-line-a: .075; --bali-flower: #ED6851; --bali-flower-a: .14; }
@@ -1067,22 +1068,77 @@ html::after { background: var(--bali-flower); opacity: var(--bali-flower-a);
 </head>
 <body>
 <style>
-#vt-gate{position:fixed;inset:0;z-index:100;background:var(--bg,#EEF5F2);display:flex;align-items:center;justify-content:center;padding:24px max(16px,env(safe-area-inset-left,0px))}
-#vt-gate .card{width:100%;max-width:400px;background:var(--surface,#fff);border:1px solid var(--line,#D3E2DC);border-radius:18px;padding:28px;display:grid;gap:14px}
-#vt-gate h1{margin:0;font-size:22px}
-#vt-gate p{margin:0;color:var(--muted,#4C635D)}
-#vt-gate form{display:grid;gap:10px}
-#vt-gate input{font:inherit;padding:12px;border:1px solid var(--line,#D3E2DC);border-radius:10px;background:var(--bg,#EEF5F2);color:var(--ink,#0F2420)}
-#vt-gate button{font:600 15px/1 inherit;padding:14px;border:0;border-radius:10px;background:var(--accent,#0B7A6B);color:#fff;cursor:pointer}
-#vt-gate-msg{min-height:1.4em;font-size:14px}
-#vt-userbar{display:flex;justify-content:flex-end;align-items:center;gap:12px;font-size:12px;color:var(--muted,#4C635D);padding:6px max(16px,env(safe-area-inset-right,0px)) 6px max(16px,env(safe-area-inset-left,0px));background:var(--surface,#fff);border-bottom:1px solid var(--line,#D3E2DC)}
-#vt-userbar button{font:inherit;color:inherit;background:transparent;border:1px solid var(--line,#D3E2DC);border-radius:6px;padding:3px 10px;cursor:pointer}
+#vt-gate{position:fixed;inset:0;z-index:100;overflow-y:auto;background:var(--bali-sun,none),var(--bali-sky,var(--bg));background-color:var(--bg);display:flex;justify-content:center;align-items:flex-start;padding:max(32px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 40px max(16px,env(safe-area-inset-left,0px))}
+#vt-gate .card{width:100%;max-width:440px;background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:28px 24px;display:grid;gap:16px;box-shadow:var(--shadow-lg,0 18px 50px -18px rgba(0,0,0,.3));margin:auto 0}
+.vt-brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;color:var(--ink)}
+.vt-brand img{width:40px;height:40px}
+#vt-gate h1{margin:0;font-size:24px;letter-spacing:-.02em;color:var(--ink)}
+#vt-gate p{margin:0;color:var(--muted)}
+#vt-tabs{display:grid;grid-template-columns:1fr 1fr;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:4px}
+#vt-tabs button{border:0;background:transparent;border-radius:999px;min-height:40px;font:700 14px var(--sans);color:var(--muted);cursor:pointer}
+#vt-tabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+#vt-gate form{display:grid;gap:12px}
+.vt-field{display:grid;gap:6px;font-weight:600;font-size:14px;color:var(--ink)}
+.vt-field input{font:500 16px var(--sans);min-height:50px;padding:0 14px;border:1.5px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);width:100%}
+.vt-field input:focus{outline:none;border-color:var(--accent)}
+.vt-pw{position:relative}
+.vt-pw input{padding-right:70px}
+.vt-pw button{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:none;color:var(--accent);font:700 13px var(--sans);min-height:38px;padding:0 10px;cursor:pointer}
+.vt-hint{font-weight:500;font-size:12.5px;color:var(--muted)}
+.vt-roles{display:grid;gap:8px;border:0;margin:0;padding:0}
+.vt-roles legend{font-weight:600;font-size:14px;color:var(--ink);margin-bottom:6px;padding:0}
+.vt-role{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;align-items:center;padding:12px 14px;border:1.5px solid var(--line);border-radius:14px;cursor:pointer;background:var(--bg)}
+.vt-role input{position:absolute;opacity:0;pointer-events:none}
+.vt-role .ic{grid-row:span 2;font-size:26px;width:42px;height:42px;display:grid;place-items:center;border-radius:12px;background:var(--surface)}
+.vt-role b{font-size:15px;color:var(--ink)}
+.vt-role small{color:var(--muted);font-size:13px}
+.vt-role:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.vt-role:has(input:focus-visible){outline:3px solid var(--accent);outline-offset:2px}
+.vt-btn{font:700 16px var(--sans);min-height:52px;border:0;border-radius:999px;background:var(--accent);color:var(--accent-ink,#fff);cursor:pointer;width:100%}
+.vt-btn:disabled{opacity:.6}
+.vt-link{border:0;background:none;color:var(--accent);font:700 14px var(--sans);cursor:pointer;padding:6px 0;justify-self:start}
+.vt-msg{min-height:1.4em;font-size:14px;font-weight:600;color:var(--muted);margin:0}
+.vt-msg.err{color:var(--bad,#B42318)} .vt-msg.ok{color:var(--good,#1E7A4C)}
+.vt-note{font-size:12.5px;color:var(--muted)}
+#vt-userbar{display:flex;justify-content:flex-end;align-items:center;gap:12px;font-size:12px;color:var(--muted);padding:6px max(16px,env(safe-area-inset-right,0px)) 6px max(16px,env(safe-area-inset-left,0px));background:var(--surface);border-bottom:1px solid var(--line)}
+#vt-userbar button{font:inherit;color:inherit;background:transparent;border:1px solid var(--line);border-radius:6px;padding:3px 10px;cursor:pointer}
 </style>
 <div id="vt-gate" hidden><div class="card">
-<h1>VillaTrack</h1>
-<p>Sign in with your email. We’ll send you a link, no password needed.</p>
-<form id="vt-gate-form" novalidate><input id="vt-email" type="email" autocomplete="email" placeholder="you@example.com" required><button id="vt-send" type="submit">Email me a sign-in link</button></form>
-<p id="vt-gate-msg" role="status" aria-live="polite"></p>
+<div class="vt-brand"><img src="data:image/png;base64,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" alt="" width="40" height="40">VillaTrack</div>
+<div id="vt-tabs" role="tablist" aria-label="Account"><button type="button" role="tab" id="vt-tab-in" aria-selected="true">Sign in</button><button type="button" role="tab" id="vt-tab-up" aria-selected="false">Create account</button></div>
+<form id="vt-f-signin" novalidate>
+<h1>Welcome back</h1>
+<label class="vt-field" for="vt-in-email">Email<input id="vt-in-email" type="email" autocomplete="email" inputmode="email"></label>
+<label class="vt-field" for="vt-in-pw">Password<span class="vt-pw"><input id="vt-in-pw" type="password" autocomplete="current-password"><button type="button" data-vt-eye="vt-in-pw" aria-pressed="false">Show</button></span></label>
+<button class="vt-btn" type="submit">Sign in</button>
+<button type="button" class="vt-link" id="vt-to-forgot">Forgot your password?</button>
+</form>
+<form id="vt-f-signup" novalidate hidden>
+<h1>Create your account</h1>
+<label class="vt-field" for="vt-up-name">Your name<input id="vt-up-name" autocomplete="name" maxlength="80"></label>
+<label class="vt-field" for="vt-up-email">Email<input id="vt-up-email" type="email" autocomplete="email" inputmode="email"></label>
+<label class="vt-field" for="vt-up-pw">Password<span class="vt-pw"><input id="vt-up-pw" type="password" autocomplete="new-password" minlength="8"><button type="button" data-vt-eye="vt-up-pw" aria-pressed="false">Show</button></span><span class="vt-hint">At least 8 characters</span></label>
+<fieldset class="vt-roles"><legend>What do you do on this build?</legend>
+<label class="vt-role"><input type="radio" name="vt-role" value="owner"><span class="ic" aria-hidden="true">🏡</span><b>Owner</b><small>It’s my villa. I approve payments.</small></label>
+<label class="vt-role"><input type="radio" name="vt-role" value="contractor"><span class="ic" aria-hidden="true">👷</span><b>Contractor</b><small>I build it and post site updates.</small></label>
+<label class="vt-role"><input type="radio" name="vt-role" value="inspector"><span class="ic" aria-hidden="true">🔍</span><b>Inspector</b><small>I check the work before each payment.</small></label>
+</fieldset>
+<button class="vt-btn" type="submit">Create account</button>
+<p class="vt-note">The project admin confirms your role before you can see the project.</p>
+</form>
+<form id="vt-f-forgot" novalidate hidden>
+<h1>Reset your password</h1>
+<p>We’ll email you a link to choose a new one.</p>
+<label class="vt-field" for="vt-fg-email">Email<input id="vt-fg-email" type="email" autocomplete="email" inputmode="email"></label>
+<button class="vt-btn" type="submit">Send reset link</button>
+<button type="button" class="vt-link" id="vt-back">← Back to sign in</button>
+</form>
+<form id="vt-f-reset" novalidate hidden>
+<h1>Choose a new password</h1>
+<label class="vt-field" for="vt-rs-pw">New password<span class="vt-pw"><input id="vt-rs-pw" type="password" autocomplete="new-password" minlength="8"><button type="button" data-vt-eye="vt-rs-pw" aria-pressed="false">Show</button></span><span class="vt-hint">At least 8 characters</span></label>
+<button class="vt-btn" type="submit">Save password</button>
+</form>
+<p id="vt-gate-msg" class="vt-msg" role="status" aria-live="polite"></p>
 </div></div>
 <div id="vt-userbar" hidden><span></span><button type="button" id="vt-signout">Sign out</button></div>
 
@@ -1396,7 +1452,7 @@ html::after { background: var(--bali-flower); opacity: var(--bali-flower-a);
   function body() {
     if (S.fatal) return '<div class="panel empty"><strong>This app can’t load here</strong>' + esc(S.fatal) + '</div>';
     if (!S.loaded.project || !S.loaded.milestones) return '<div class="panel empty"><strong>Loading your project…</strong>Connecting to the project’s saved data.</div>';
-    if (!availableRoles().length) return '<div class="panel empty"><strong>You don’t have a role on this project yet</strong>Ask the project admin to add you as owner, contractor or inspector, then reload this page.</div>';
+    if (!availableRoles().length) return '<div class="panel empty">' + emptyArt() + '<strong>Thanks for signing up!</strong>' + (S.user && S.user.myRequest && S.user.myRequest() ? 'You asked to join as ' + esc((ROLES[S.user.myRequest()] || {}).label || S.user.myRequest()) + '. ' : '') + 'The project admin will confirm your role. Reload this page once they have.</div>';
     if (!S.project) {
       if (S.canEdit) return wizardView();
       return '<div class="panel empty"><strong>This project isn’t set up yet</strong>The admin needs to enter the contract and milestones first.</div>';
@@ -3437,7 +3493,7 @@ html::after { background: var(--bali-flower); opacity: var(--bali-flower-a);
       const ids = Object.keys(S.members);
       h += '<p class="hint" style="margin:0">Add the builder, the inspector and family members who should see the project. Optional: you can do this later under People.</p>';
       h += ids.length ? '<ul class="list">' + ids.map((id) => '<li><div class="row">' + person(id) + '<span class="pill info">' + esc((ROLES[S.members[id].role] || {}).label || S.members[id].role) + '</span></div></li>').join('') + '</ul>' : '';
-      h += '<div class="grid2"><div class="field"><label for="member-q">Find a person</label><input id="member-q" type="search" placeholder="Name or email" autocomplete="off"><span class="hint">Only people in your organization can be found.</span></div><div class="field"><label for="member-role">Role</label><select id="member-role"><option value="contractor">Contractor (builder)</option><option value="inspector">Inspector (engineer)</option><option value="owner">Owner (family)</option></select></div></div>';
+      h += '<div class="grid2"><div class="field"><label for="member-q">Find a person</label><input id="member-q" type="search" placeholder="Name or email" autocomplete="off"><span class="hint">Only people who already created an account can be found.</span></div><div class="field"><label for="member-role">Role</label><select id="member-role"><option value="contractor">Contractor (builder)</option><option value="inspector">Inspector (engineer)</option><option value="owner">Owner (family)</option></select></div></div>';
       h += S.hits.length ? '<ul class="list">' + S.hits.map((p) => '<li><div class="row"><span class="person"><img alt="" src="' + esc(p.avatarUrl) + '"><span>' + esc(p.name) + '</span></span><button type="button" class="btn ghost sm" data-act="member-add" data-id="' + esc(p.id) + '">Add</button></div></li>').join('') + '</ul>' : '';
     }
     if (st === 5) {
@@ -4267,10 +4323,10 @@ html::after { background: var(--bali-flower); opacity: var(--bali-flower-a);
   }
 
   function peopleView() {
-    let h = projectHead('People', 'Give each person one role. Anyone with edit access to this page can switch between all roles.');
+    let h = projectHead('People', 'Give each person one role. Only the admin can switch between all roles.') + requestsBlock();
     const ids = Object.keys(S.members);
     h += '<div class="panel"><ul class="list">' + (ids.length ? ids.map((id) => '<li><div class="row">' + person(id) + '<div class="actions"><span class="pill info">' + esc((ROLES[S.members[id].role] || {}).label || S.members[id].role) + '</span><button type="button" class="btn quiet" data-act="member-remove" data-id="' + esc(id) + '">Remove</button></div></div></li>').join('') : '<li class="empty"><strong>No one added yet</strong>Search your organization below to add the contractor, inspector or a family member.</li>') + '</ul></div>';
-    h += '<div class="panel" style="display:flex;flex-direction:column;gap:12px"><div class="grid2"><div class="field"><label for="member-q">Find a person</label><input id="member-q" type="search" placeholder="Name or email" autocomplete="off"><span class="hint">Only people in your organization can be found and can open this page.</span></div><div class="field"><label for="member-role">Role</label><select id="member-role"><option value="owner">Owner</option><option value="contractor">Contractor</option><option value="inspector">Inspector</option></select><span class="hint">Admins are people you give edit access to this page.</span></div></div>';
+    h += '<div class="panel" style="display:flex;flex-direction:column;gap:12px"><div class="grid2"><div class="field"><label for="member-q">Find a person</label><input id="member-q" type="search" placeholder="Name or email" autocomplete="off"><span class="hint">Only people who already created an account can be found.</span></div><div class="field"><label for="member-role">Role</label><select id="member-role"><option value="owner">Owner</option><option value="contractor">Contractor</option><option value="inspector">Inspector</option></select><span class="hint">Admins are people you give edit access to this page.</span></div></div>';
     h += S.hits.length ? '<ul class="list">' + S.hits.map((p) => '<li><div class="row"><span class="person"><img alt="" src="' + esc(p.avatarUrl) + '"><span>' + esc(p.name) + '</span></span><button type="button" class="btn ghost" data-act="member-add" data-id="' + esc(p.id) + '">Add with this role</button></div></li>').join('') + '</ul>' : '';
     return h + '</div>';
   }
@@ -4329,6 +4385,7 @@ html::after { background: var(--bali-flower); opacity: var(--bali-flower-a);
     const a = el.dataset.act, id = el.dataset.id;
     if (await onActUX(el)) return;
     if (await onActFeed(el)) return;
+    if (await onActReq(el)) return;
     if (await onActP1(el)) return;
     if (await onActAI(el)) return;
     if (await onActCT(el)) return;
@@ -4981,6 +5038,43 @@ html::after { background: var(--bali-flower); opacity: var(--bali-flower-a);
     [/^paid of (.+)$/, 'dibayar dari $1'], [/^step (\d+) of (\d+)$/, 'tahap $1 dari $2'], [/^\(step (\d+) of (\d+)\)$/, '(tahap $1 dari $2)'], [/^Step (\d+) of (\d+)$/, 'Tahap $1 dari $2'],
     [/^Then (\d+) more things?$/, 'Lalu $1 hal lagi'], [/^(\d+) new updates? since you last looked$/, '$1 update baru sejak terakhir Anda lihat'], [/^Send (.+) by (.+)$/, 'Kirim $1 sebelum $2'], [/^Send (.+)$/, 'Kirim $1'], [/^(\d+) small things? to fix$/, '$1 hal kecil perlu diperbaiki'], [/^(.+) paid of (.+)$/, '$1 dibayar dari $2']
   );
+
+  // ===================== join requests: people who signed up and chose a role =====================
+  function requestsBlock() {
+    if (!S.user || typeof S.user.requests !== 'function') return '';
+    if (!S.reqLoaded) { S.reqLoaded = true; S.user.requests().then((r) => { S.requests = r; render(); }).catch(() => { S.requests = []; }); }
+    const list = (S.requests || []).filter((p) => !S.members[p.id]);
+    let h = '<section class="section"><h2>Join requests' + (list.length ? ' (' + list.length + ')' : '') + '</h2>';
+    if (!list.length) return h + '<div class="panel empty"><strong>No one waiting</strong>People who create an account and pick a role show up here for your OK.</div></section>';
+    h += '<div class="panel"><ul class="list">' + list.map((p) => {
+      const r = ROLES[p.requested_role] ? p.requested_role : 'owner';
+      return '<li data-ak="req-' + esc(p.id) + '"><div class="row"><span><strong class="noi18n">' + esc(p.name || p.email) + '</strong><br><span class="hint noi18n">' + esc(p.email || '') + '</span><br><span class="hint">Wants to join as <b>' + esc(ROLES[r].label) + '</b></span></span>' +
+        '<div class="actions"><label class="sr-only" for="req-role-' + esc(p.id) + '">Role</label><select id="req-role-' + esc(p.id) + '">' + ['owner', 'contractor', 'inspector'].map((k) => '<option value="' + k + '"' + (k === r ? ' selected' : '') + '>' + esc(ROLES[k].label) + '</option>').join('') + '</select>' +
+        '<button type="button" class="btn" data-act="req-approve" data-id="' + esc(p.id) + '">Approve</button><button type="button" class="btn quiet" data-act="req-decline" data-id="' + esc(p.id) + '">Decline</button></div></div></li>';
+    }).join('') + '</ul></div></section>';
+    return h;
+  }
+  async function onActReq(el) {
+    const a = el.dataset.act, id = el.dataset.id;
+    if (a === 'req-approve') {
+      const sel = document.getElementById('req-role-' + id), r = sel ? sel.value : 'owner';
+      el.disabled = true;
+      try { await S.db.doc('members/' + id).set({ role: r, addedAt: now(), addedBy: myId() }); await audit('Approved a join request as ' + (ROLES[r] || {}).label); S.requests = (S.requests || []).filter((p) => p.id !== id); toast('Approved. They can reload and start.'); render(); }
+      catch (e) { el.disabled = false; fail(e); }
+      return true;
+    }
+    if (a === 'req-decline') {
+      el.disabled = true;
+      try { await S.user.declineRequest(id); S.requests = (S.requests || []).filter((p) => p.id !== id); toast('Request declined.'); render(); }
+      catch (e) { el.disabled = false; fail(e); }
+      return true;
+    }
+    return false;
+  }
+  Object.assign(I18N, { 'Join requests': 'Permintaan bergabung', 'No one waiting': 'Tidak ada yang menunggu', 'Approve': 'Setujui', 'Decline': 'Tolak',
+    'People who create an account and pick a role show up here for your OK.': 'Orang yang membuat akun dan memilih peran akan muncul di sini untuk Anda setujui.',
+    'Request declined.': 'Permintaan ditolak.', 'Approved. They can reload and start.': 'Disetujui. Mereka bisa memuat ulang dan mulai.' });
+  I18N_RX.push([/^Wants to join as (.+)$/, 'Ingin bergabung sebagai $1']);
 
   boot();
 })();
