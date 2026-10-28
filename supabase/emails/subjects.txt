@@ -1,0 +1,2 @@
+Confirm sign up: Confirm your VillaTrack account
+Reset password: Reset your VillaTrack password
