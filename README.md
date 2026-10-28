@@ -4,6 +4,7 @@ Landing page for VillaTrack, owner-side construction control for villa builds in
 Pay your contractor only for verified work.
 
 - `index.html`: the whole site (English and Bahasa Indonesia).
+- `pilot/`: the pilot app as a public demo with example data. Each visitor's changes are saved only in their own browser.
 - `supabase-waitlist.sql`: creates the `waitlist` table for sign-ups. Run it once in the Supabase SQL Editor.
 
 ## Turn on sign-ups
