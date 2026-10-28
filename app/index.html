@@ -881,7 +881,7 @@ ol.todo li.bad { box-shadow: var(--shadow), inset 4px 0 0 var(--bad); }
 
 /* story viewer */
 .sv-bg { position: fixed; inset: 0; z-index: 70; background: rgba(5,14,12,.72); border: 0; }
-.sv { position: fixed; z-index: 71; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(420px, calc(100vw - 24px)); max-height: calc(100vh - 40px); overflow-y: auto; border-radius: 26px; padding: 14px 18px 22px; color: #fff; background: linear-gradient(165deg, #1A6F8C 0%, #0F2A36 55%, #5A2230 100%); box-shadow: 0 30px 60px -20px rgba(0,0,0,.6); }
+.sv { position: fixed; z-index: 71; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(420px, calc(100vw - 24px)); max-height: calc(100vh - 40px); overflow-y: auto; border-radius: 26px; padding: 14px 18px 22px; color: #fff; background: linear-gradient(165deg, #004878 0%, #002A45 60%, #6A2C33 100%); box-shadow: 0 30px 60px -20px rgba(0,0,0,.6); }
 .sv-bars { display: flex; gap: 4px; }
 .sv-bars span { flex: 1; height: 3px; border-radius: 3px; background: rgba(255,255,255,.3); }
 .sv-bars .past, .sv-bars .cur { background: #fff; }
@@ -964,7 +964,7 @@ button.fd-ev:disabled { cursor: default; opacity: 1; }
 .sv-amt { display: flex; justify-content: space-between; align-items: baseline; width: 100%; gap: 10px; }
 .sv-amt span { font-size: 13px; opacity: .8; }
 .sv-amt b { font-size: 20px; }
-.sv-cta { width: 100%; min-height: 54px; border-radius: 999px; border: 0; background: #fff; color: #B03E2B; font: 800 16px var(--sans); cursor: pointer; margin-top: 4px; }
+.sv-cta { width: 100%; min-height: 54px; border-radius: 999px; border: 0; background: #fff; color: #004878; font: 800 16px var(--sans); cursor: pointer; margin-top: 4px; }
 .sv-x.dark { background: var(--bg); color: var(--ink); }
 .fd-sheet { position: fixed; z-index: 71; left: 50%; bottom: 0; transform: translateX(-50%); width: min(640px, 100vw); max-height: 88vh; overflow-y: auto; background: var(--bg); border-radius: 26px 26px 0 0; padding: 8px 16px calc(20px + env(safe-area-inset-bottom, 0px)); box-shadow: 0 -20px 50px -20px rgba(0,0,0,.5); }
 .fd-grab { width: 44px; height: 5px; border-radius: 5px; background: var(--line); margin: 6px auto 12px; }
@@ -975,7 +975,7 @@ button.fd-ev:disabled { cursor: default; opacity: 1; }
 @media (prefers-reduced-motion: no-preference) { .fd-sheet { animation: sheetup .25s ease-out both; } @keyframes sheetup { from { transform: translate(-50%, 30px); opacity: 0; } } .sv { animation: svin .2s ease-out both; } @keyframes svin { from { opacity: 0; transform: translate(-50%, -48%) scale(.97); } } }
 
 /* v3: fresh updates, countdown, photo viewer */
-.fd-fresh { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 48px; padding: 0 16px; border-radius: 999px; border: 0; cursor: pointer; font: 700 14.5px var(--sans); color: #fff; background: linear-gradient(90deg, #C9472F, #1A6F8C); box-shadow: var(--shadow); text-align: left; }
+.fd-fresh { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 48px; padding: 0 16px; border-radius: 999px; border: 0; cursor: pointer; font: 700 14.5px var(--sans); color: #fff; background: linear-gradient(90deg, #C9472F, #004878); box-shadow: var(--shadow); text-align: left; }
 .fd-fresh span:last-child { margin-left: auto; }
 .fd-fresh-dot { width: 9px; height: 9px; border-radius: 50%; background: #fff; flex: none; }
 @media (prefers-reduced-motion: no-preference) { .fd-fresh-dot { animation: fdblink 1.4s ease-in-out infinite; } @keyframes fdblink { 50% { opacity: .3; } } }
@@ -999,27 +999,27 @@ button.fd-ev:disabled { cursor: default; opacity: 1; }
 
 /* ===== brand: coral logo + sea blue (overrides earlier tokens) ===== */
 :root {
-  --bg: #F2F9FC; --surface: #FFFFFF; --surface-2: #F7FBFD; --ink: #0F2A36; --muted: #4F6B77; --line: #D2E5EC; --line-soft: #E4F0F5;
+  --bg: #F2F9FC; --surface: #FFFFFF; --surface-2: #F7FBFD; --ink: #004878; --muted: #4A6B80; --line: #CFE3EE; --line-soft: #E3F0F6; --navy: #004878;
   --accent: #C9472F; --accent-ink: #FFFFFF; --accent-soft: #FDE7E2; --accent-strong: #B03E2B;
-  --coral: #ED6851; --coral-soft: #FDE7E2; --sea: #72CFEB; --sea-soft: #E1F4FB; --sea-strong: #1A6F8C;
-  --info: #1A6F8C; --info-soft: #E1F4FB; --sky: #DDF2FA; --water: #72CFEB;
+  --coral: #ED6851; --coral-soft: #FDE7E2; --sea: #71CFEB; --sea-soft: #E1F4FB; --sea-strong: #004878;
+  --info: #004878; --info-soft: #E1F4FB; --sky: #DDF2FA; --water: #71CFEB;
   --good: #1E7A4C; --good-ink: #FFFFFF; --good-soft: #DDF3E5; --good-strong: #17623D;
-  --shadow: 0 1px 2px rgba(15,42,54,.05), 0 2px 8px -2px rgba(15,42,54,.07);
-  --shadow-lg: 0 18px 50px -18px rgba(15,42,54,.35);
+  --shadow: 0 1px 2px rgba(0,72,120,.05), 0 2px 8px -2px rgba(0,72,120,.08);
+  --shadow-lg: 0 18px 50px -18px rgba(0,72,120,.35);
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --bg: #0A1A22; --surface: #10252F; --surface-2: #142C37; --ink: #E6F3F8; --muted: #9CB5BF; --line: #21404C; --line-soft: #193440;
-  --accent: #FF7E66; --accent-ink: #2A0A04; --accent-soft: #3A1A14; --accent-strong: #FFA894;
-  --coral: #FF8A73; --coral-soft: #3A1A14; --sea: #7FD8F2; --sea-soft: #12323F; --sea-strong: #8FDDF4;
-  --info: #8FDDF4; --info-soft: #12323F; --sky: #123241; --water: #4FB8D8;
-  --good: #6CCB78; --good-ink: #06210F; --good-soft: #173326; --good-strong: #9BE0A5;
+  --bg: #002A45; --surface: #00395E; --surface-2: #004878; --ink: #EAF6FB; --muted: #A9C6D6; --line: #1A5A84; --line-soft: #0F4A70; --navy: #004878;
+  --accent: #FF7E66; --accent-ink: #2A0A04; --accent-soft: #4A2A30; --accent-strong: #FFA894;
+  --coral: #FF8A73; --coral-soft: #4A2A30; --sea: #71CFEB; --sea-soft: #0A4A72; --sea-strong: #71CFEB;
+  --info: #71CFEB; --info-soft: #0A4A72; --sky: #0A4A72; --water: #71CFEB;
+  --good: #6CCB78; --good-ink: #06210F; --good-soft: #14453A; --good-strong: #9BE0A5;
   --shadow: 0 1px 2px rgba(0,0,0,.3); --shadow-lg: 0 18px 50px -18px rgba(0,0,0,.7); } }
 :root[data-theme="dark"] {
-  --bg: #0A1A22; --surface: #10252F; --surface-2: #142C37; --ink: #E6F3F8; --muted: #9CB5BF; --line: #21404C; --line-soft: #193440;
-  --accent: #FF7E66; --accent-ink: #2A0A04; --accent-soft: #3A1A14; --accent-strong: #FFA894;
-  --coral: #FF8A73; --coral-soft: #3A1A14; --sea: #7FD8F2; --sea-soft: #12323F; --sea-strong: #8FDDF4;
-  --info: #8FDDF4; --info-soft: #12323F; --sky: #123241; --water: #4FB8D8;
-  --good: #6CCB78; --good-ink: #06210F; --good-soft: #173326; --good-strong: #9BE0A5;
+  --bg: #002A45; --surface: #00395E; --surface-2: #004878; --ink: #EAF6FB; --muted: #A9C6D6; --line: #1A5A84; --line-soft: #0F4A70; --navy: #004878;
+  --accent: #FF7E66; --accent-ink: #2A0A04; --accent-soft: #4A2A30; --accent-strong: #FFA894;
+  --coral: #FF8A73; --coral-soft: #4A2A30; --sea: #71CFEB; --sea-soft: #0A4A72; --sea-strong: #71CFEB;
+  --info: #71CFEB; --info-soft: #0A4A72; --sky: #0A4A72; --water: #71CFEB;
+  --good: #6CCB78; --good-ink: #06210F; --good-soft: #14453A; --good-strong: #9BE0A5;
   --shadow: 0 1px 2px rgba(0,0,0,.3); --shadow-lg: 0 18px 50px -18px rgba(0,0,0,.7); }
 .brand .brand-logo { width: 30px; height: 30px; display: block; flex: none; }
 /* good states stay green so coral never reads as "all fine" */
