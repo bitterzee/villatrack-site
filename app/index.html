@@ -812,7 +812,6 @@ ol.todo li.bad { box-shadow: var(--shadow), inset 4px 0 0 var(--bad); }
 .fd-art { background: var(--sky); }
 .fd-art svg { display: block; width: 100%; height: auto; }
 .fd-hero-b { padding: 16px 18px 18px; display: grid; gap: 12px; }
-@media (min-width: 760px) { .fd-hero { display: grid; grid-template-columns: 1.15fr 1fr; align-items: stretch; } .fd-art { display: flex; align-items: flex-end; } .fd-hero-b { align-content: center; padding: 22px; } }
 .fd-pct { display: flex; align-items: baseline; gap: 8px; }
 .fd-pct .num { font-size: 44px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
 .fd-pct small { font-size: 16px; font-weight: 700; color: var(--muted); }
@@ -834,7 +833,8 @@ ol.todo li.bad { box-shadow: var(--shadow), inset 4px 0 0 var(--bad); }
 .fd-chip small { display: block; font-size: 12px; color: var(--muted); white-space: nowrap; }
 
 .fd-sec { display: flex; flex-direction: column; gap: 12px; }
-.fd-sh { display: flex; align-items: center; gap: 10px; }
+.fd-sh { display: flex; align-items: center; gap: 8px 10px; flex-wrap: wrap; }
+.fd-sh h2 { white-space: nowrap; }
 .fd-sh h2 { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
 .fd-count { background: var(--coral); color: #fff; font-weight: 800; font-size: 13px; min-width: 24px; height: 24px; border-radius: 999px; display: grid; place-items: center; padding: 0 7px; }
 .fd-link { margin-left: auto; background: none; border: 0; color: var(--accent); font-weight: 700; cursor: pointer; padding: 8px 4px; font-size: 14px; }
@@ -901,6 +901,77 @@ ol.todo li.bad { box-shadow: var(--shadow), inset 4px 0 0 var(--bad); }
 .sv-nav:disabled { opacity: .25; cursor: default; }
 .sv .pill { background: rgba(255,255,255,.18); color: #fff; }
 @media (max-width: 480px) { .fd-hey { font-size: 23px; } .fd-share span { display: none; } .fd-share { padding: 0 12px; } .sv-body { padding: 12px 30px 4px; } }
+@media (min-width: 760px) { .fd-hero { display: grid; grid-template-columns: 1.15fr 1fr; align-items: stretch; } .fd-art { display: flex; align-items: flex-end; } .fd-hero-b { align-content: center; padding: 22px; } }
+/* v2: next move, worry tiles, plain steps, sheet */
+.fd-hint { color: var(--muted); font-size: 13px; font-weight: 500; }
+.fd-sh .fd-hint { margin-left: auto; }
+.fd-coach { background: var(--surface); border: 2px dashed var(--accent); border-radius: 22px; padding: 18px; display: grid; gap: 10px; }
+.fd-coach ol { margin: 0; padding-left: 20px; display: grid; gap: 6px; color: var(--muted); }
+.fd-coach ol b { color: var(--ink); }
+.fd-coach .btn { justify-self: start; border-radius: 999px; }
+.fd-next { display: grid; grid-template-columns: auto 1fr; gap: 14px 16px; align-items: start; padding: 20px; border-radius: 24px; background: var(--surface); border: 2px solid var(--accent); box-shadow: var(--shadow); }
+.fd-next.bad { border-color: var(--bad); background: linear-gradient(160deg, var(--bad-soft), var(--surface) 65%); }
+.fd-next.warn { border-color: var(--sun); background: linear-gradient(160deg, var(--sun-soft), var(--surface) 65%); }
+.fd-next-em { font-size: 40px; line-height: 1; }
+.fd-next-b { display: grid; gap: 4px; min-width: 0; }
+.fd-next-b b { font-size: 19px; line-height: 1.25; letter-spacing: -0.01em; }
+.fd-next-b span { color: var(--muted); font-size: 14px; }
+.fd-next-b small { font-size: 14px; color: var(--ink); opacity: .85; margin-top: 4px; }
+.fd-go { grid-column: 1 / -1; min-height: 56px; font-size: 17px; border-radius: 999px; width: 100%; }
+.fd-also { align-self: flex-start; background: none; border: 0; color: var(--accent); font-weight: 700; font-size: 15px; cursor: pointer; padding: 6px 2px; min-height: 40px; }
+.fd-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.fd-list li { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; padding: 12px 14px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); }
+.fd-list li > span { font-size: 22px; }
+.fd-list li b { display: block; font-size: 14.5px; line-height: 1.3; }
+.fd-list li small { color: var(--muted); font-size: 12.5px; }
+.fd-list li > div { min-width: 0; }
+.fd-qs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.fd-q { display: grid; gap: 4px; align-content: start; text-align: left; padding: 14px; border-radius: 20px; border: 1px solid var(--line); background: var(--surface); cursor: pointer; color: var(--ink); min-width: 0; }
+.fd-q-q { font-size: 13px; font-weight: 700; color: var(--muted); }
+.fd-q-a { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.15; }
+.fd-dot { width: 12px; height: 12px; border-radius: 50%; flex: none; background: var(--leaf); box-shadow: 0 0 0 4px color-mix(in srgb, var(--leaf) 22%, transparent); }
+.fd-q.warn .fd-dot { background: var(--sun); box-shadow: 0 0 0 4px color-mix(in srgb, var(--sun) 25%, transparent); }
+.fd-q.bad .fd-dot { background: var(--bad); box-shadow: 0 0 0 4px color-mix(in srgb, var(--bad) 22%, transparent); }
+.fd-q.good { background: linear-gradient(170deg, var(--accent-soft), var(--surface) 70%); }
+.fd-q.warn { background: linear-gradient(170deg, var(--sun-soft), var(--surface) 70%); }
+.fd-q.bad { background: linear-gradient(170deg, var(--bad-soft), var(--surface) 70%); }
+.fd-q-s { font-size: 12.5px; color: var(--muted); line-height: 1.35; }
+@media (max-width: 520px) { .fd-qs { grid-template-columns: 1fr; } .fd-q { grid-template-columns: 1fr auto; align-items: center; } .fd-q-q { grid-column: 1 / -1; } .fd-q-s { grid-column: 1 / -1; } }
+.st-in { font-size: 28px; line-height: 1; }
+.st-ring { position: relative; }
+.st-tick { position: absolute; right: -2px; bottom: -2px; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 12px; font-weight: 800; display: grid; place-items: center; border: 2px solid var(--bg); }
+.st-tick.you { background: var(--coral); }
+.st.you .st-ring { background: conic-gradient(from 0deg, var(--coral), #DD2A7B, var(--sun), var(--coral)); }
+@media (prefers-reduced-motion: no-preference) { .st.you .st-ring { animation: stpulse 1.6s ease-in-out infinite; } @keyframes stpulse { 50% { transform: scale(1.07); } } }
+.st.next .st-in { filter: grayscale(1); opacity: .6; }
+.fd-meter { height: 10px; border-radius: 999px; background: var(--bg); overflow: hidden; }
+.fd-meter span { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--accent), var(--leaf)); }
+.fd-nowp { margin: 0; font-size: 15px; }
+.fd-hero-b .btn { justify-self: start; }
+.fd-hero-b > p.fd-hint { margin: 0; }
+.fd-streak { font-size: 12.5px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: var(--sun-soft); }
+button.fd-ev { width: 100%; text-align: left; cursor: pointer; font: inherit; color: var(--ink); }
+button.fd-ev:disabled { cursor: default; opacity: 1; }
+.fd-evb { min-width: 0; flex: 1; }
+.fd-evb b { display: block; font-size: 14.5px; line-height: 1.3; }
+.fd-evb span { font-size: 12.5px; color: var(--muted); }
+.fd-chev { font-size: 22px; color: var(--muted); }
+.sv-tech { margin: -4px 0 0; font-size: 13px; opacity: .85; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.sv-plain { margin: 0; font-size: 15.5px; }
+.sv-next { display: grid; gap: 2px; background: rgba(255,255,255,.12); border-radius: 14px; padding: 12px 14px; width: 100%; }
+.sv-next b { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; opacity: .8; }
+.sv-amt { display: flex; justify-content: space-between; align-items: baseline; width: 100%; gap: 10px; }
+.sv-amt span { font-size: 13px; opacity: .8; }
+.sv-amt b { font-size: 20px; }
+.sv-cta { width: 100%; min-height: 54px; border-radius: 999px; border: 0; background: #fff; color: #0B4F46; font: 800 16px var(--sans); cursor: pointer; margin-top: 4px; }
+.sv-x.dark { background: var(--bg); color: var(--ink); }
+.fd-sheet { position: fixed; z-index: 71; left: 50%; bottom: 0; transform: translateX(-50%); width: min(640px, 100vw); max-height: 88vh; overflow-y: auto; background: var(--bg); border-radius: 26px 26px 0 0; padding: 8px 16px calc(20px + env(safe-area-inset-bottom, 0px)); box-shadow: 0 -20px 50px -20px rgba(0,0,0,.5); }
+.fd-grab { width: 44px; height: 5px; border-radius: 5px; background: var(--line); margin: 6px auto 12px; }
+.fd-sheet-h { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; margin-bottom: 12px; }
+.fd-sheet-em { font-size: 34px; }
+.fd-sheet-h b { display: block; font-size: 18px; }
+.fd-sheet-h span { color: var(--muted); font-size: 14px; }
+@media (prefers-reduced-motion: no-preference) { .fd-sheet { animation: sheetup .25s ease-out both; } @keyframes sheetup { from { transform: translate(-50%, 30px); opacity: 0; } } .sv { animation: svin .2s ease-out both; } @keyframes svin { from { opacity: 0; transform: translate(-50%, -48%) scale(.97); } } }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="config.js?v=2"></script>
@@ -4594,36 +4665,71 @@ ol.todo li.bad { box-shadow: var(--shadow), inset 4px 0 0 var(--bad); }
     });
     return out.filter((x) => x.at).sort((a, b) => String(b.at).localeCompare(String(a.at)));
   }
+  // plain-language meaning of each stage, keyed by its checklist type
+  const STAGE_PLAIN = {
+    site: ['🏁', 'The builder sets up the site', 'Fence, site office, water and power. Nothing built yet.'],
+    foundation: ['🧱', 'The base your house sits on', 'Concrete footings and ground beams. Hidden later, so it must be checked now.'],
+    structure: ['🏗️', 'The concrete frame', 'Columns, beams and floor slabs. This is what holds the house up.'],
+    roofwalls: ['🏠', 'Roof on, walls up', 'The house is closed from the rain and looks like a house.'],
+    mep: ['🔌', 'Pipes, wiring and the pool', 'Water, power and the pool shell, tested before walls are finished.'],
+    finishes: ['🎨', 'Tiles, paint and fittings', 'Everything you see and touch, installed as you chose.'],
+    handover: ['🔑', 'Keys, plus a safety buffer', 'The last part is held back until any defects are fixed.']
+  };
+  const plain = (m) => STAGE_PLAIN[m.form] || ['📍', m.name, m.rule || ''];
+  function stageNext(m) {
+    const s = m.status;
+    if (s === 'not_started') return 'Starts after the stage before it.';
+    if (s === 'in_progress') return 'The builder is working on it. Nothing for you to do yet.';
+    if (s === 'submitted') return m.needsInspection ? 'The builder says it’s done. An engineer will check it first.' : 'The builder says it’s done. It’s your call to approve the payment.';
+    if (s === 'insp_requested' || s === 'insp_scheduled') return 'An engineer is coming to check it' + (m.scheduledFor ? ' on ' + dshort(dnum(String(m.scheduledFor).slice(0, 10))) : '') + '. You’ll get the result here.';
+    if (s === 'failed') return 'The engineer found problems. Don’t pay until they’re fixed.';
+    if (s === 'inspected') return 'The engineer says it’s OK. You can approve the payment now.';
+    if (s === 'approved' || s === 'instructed') return 'You approved it. The payment is on its way.';
+    if (s === 'released') return 'Done and paid. Nothing to do.';
+    if (s === 'disputed') return 'This payment is on hold while you and the builder sort it out.';
+    return '';
+  }
+  const needsYou = (m) => m.status === 'inspected' || (m.status === 'submitted' && !m.needsInspection);
   function storyRing(m, i, cur) {
-    const done = DONE_ST.indexOf(m.status) >= 0, now = cur && cur.id === m.id, bad = m.status === 'failed' || m.status === 'disputed';
-    const cls = done ? 'done' : bad ? 'bad' : now ? 'now' : 'next';
-    const icon = BADGES[i] ? '<svg viewBox="0 0 24 24"><path d="' + BADGES[i][1] + '"/></svg>' : '';
-    return '<button type="button" class="st ' + cls + '" data-act="story" data-id="' + esc(m.id) + '" aria-label="' + esc(m.name + ', ' + (STATUS[m.status] || [m.status])[0]) + '"><span class="st-ring"><span class="st-in">' + icon + '</span></span><span class="st-l">' + esc(m.name) + '</span></button>';
+    const done = DONE_ST.indexOf(m.status) >= 0, now = cur && cur.id === m.id, bad = m.status === 'failed' || m.status === 'disputed', you = needsYou(m);
+    const cls = you ? 'you' : done ? 'done' : bad ? 'bad' : now ? 'now' : 'next';
+    const P = plain(m);
+    return '<button type="button" class="st ' + cls + '" data-act="story" data-id="' + esc(m.id) + '" aria-label="' + esc('Step ' + (i + 1) + ': ' + m.name + '. ' + (STATUS[m.status] || [m.status])[0]) + '"><span class="st-ring"><span class="st-in">' + P[0] + '</span>' + (done ? '<span class="st-tick" aria-hidden="true">✓</span>' : you ? '<span class="st-tick you" aria-hidden="true">!</span>' : '') + '</span><span class="st-l">' + esc(m.name) + '</span></button>';
   }
   function storyView() {
     const steps = S.milestones.slice().sort((a, b) => a.seq - b.seq);
     const i = steps.findIndex((m) => m.id === S.story); if (i < 0) return '';
-    const m = steps[i], st = STATUS[m.status] || [m.status, ''];
+    const m = steps[i], st = STATUS[m.status] || [m.status, ''], P = plain(m);
     const pics = (m.submitPhotos || []).slice();
     S.logs.filter((l) => l.phase === m.id).forEach((l) => (l.photos || []).forEach((p) => pics.push(p)));
     if (m.inspection && m.inspection.photos) m.inspection.photos.forEach((p) => pics.push(p));
-    const done = DONE_ST.indexOf(m.status) >= 0;
     let h = '<div class="sv-bg" data-act="story-close"></div><div class="sv" role="dialog" aria-modal="true" aria-label="' + esc(m.name) + '">';
     h += '<div class="sv-bars">' + steps.map((x, k) => '<span class="' + (k < i ? 'past' : k === i ? 'cur' : '') + '"></span>').join('') + '</div>';
-    h += '<div class="sv-top"><span class="sv-n">' + (i + 1) + '/' + steps.length + '</span><button type="button" class="sv-x" data-act="story-close" aria-label="Close">✕</button></div>';
-    h += '<div class="sv-body">';
-    h += '<div class="sv-em">' + (done ? '✅' : m.status === 'failed' ? '❌' : m.status === 'not_started' ? '⏳' : '🚧') + '</div>';
-    h += '<h2>' + esc(m.name) + '</h2><span class="pill ' + esc(st[1]) + '">' + esc(st[0]) + '</span>';
-    if (ctype() !== 'costplus') h += '<div class="sv-amt num">' + esc(short(msAmount(m))) + ' <small>· ' + esc(String(m.pct || 0)) + '%</small></div>';
-    if (m.rule) h += '<p class="sv-rule"><b>Done means:</b> ' + esc(m.rule) + '</p>';
-    if (m.inspection && m.inspection.at) h += '<p class="sv-rule"><b>' + (m.inspection.result === 'fail' ? 'Engineer: needs fixing' : 'Engineer: passed') + '</b>' + (m.inspection.notes ? ' · ' + esc(clip(m.inspection.notes, 160)) : '') + '</p>';
-    if (m.submitNote) h += '<p class="sv-rule"><b>Builder:</b> ' + esc(clip(m.submitNote, 160)) + '</p>';
+    h += '<div class="sv-top"><span class="sv-n">Step ' + (i + 1) + ' of ' + steps.length + '</span><button type="button" class="sv-x" data-act="story-close" aria-label="Close">✕</button></div>';
+    h += '<div class="sv-body"><div class="sv-em" aria-hidden="true">' + P[0] + '</div>';
+    h += '<h2>' + esc(P[1]) + '</h2><p class="sv-tech">' + esc(m.name) + ' · <span class="pill ' + esc(st[1]) + '">' + esc(st[0]) + '</span></p>';
+    h += '<p class="sv-plain">' + esc(P[2]) + '</p>';
+    h += '<div class="sv-next"><b>What happens now</b><span>' + esc(stageNext(m)) + '</span></div>';
+    if (ctype() !== 'costplus') h += '<div class="sv-amt"><span>Payment for this step</span><b class="num">' + esc(short(msAmount(m))) + '</b></div>';
+    if (m.inspection && m.inspection.at) h += '<p class="sv-rule"><b>' + (m.inspection.result === 'fail' ? '❌ Engineer: needs fixing' : '✅ Engineer: passed') + '</b>' + (m.inspection.notes ? '<br>' + esc(clip(m.inspection.notes, 160)) : '') + '</p>';
+    if (m.submitNote) h += '<p class="sv-rule"><b>Builder says:</b> ' + esc(clip(m.submitNote, 160)) + '</p>';
     if (pics.length) h += '<div class="sv-pics">' + pics.slice(0, 6).map((p) => '<img alt="Site photo" loading="lazy" src="' + __vtBlob(p) + '">').join('') + '</div>';
-    else h += '<p class="sv-empty">' + (m.status === 'not_started' ? 'Coming up. Photos land here once work starts.' : 'No photos yet.') + '</p>';
+    if (needsYou(m)) h += '<button type="button" class="sv-cta" data-act="ms-sheet" data-id="' + esc(m.id) + '">' + (ctype() === 'costplus' ? 'Sign off this step' : 'Review and approve payment') + '</button>';
     h += '</div>';
-    h += '<button type="button" class="sv-nav prev" data-act="story-nav" data-id="-1" aria-label="Previous stage"' + (i === 0 ? ' disabled' : '') + '>‹</button><button type="button" class="sv-nav next" data-act="story-nav" data-id="1" aria-label="Next stage"' + (i === steps.length - 1 ? ' disabled' : '') + '>›</button>';
+    h += '<button type="button" class="sv-nav prev" data-act="story-nav" data-id="-1" aria-label="Previous step"' + (i === 0 ? ' disabled' : '') + '>‹</button><button type="button" class="sv-nav next" data-act="story-nav" data-id="1" aria-label="Next step"' + (i === steps.length - 1 ? ' disabled' : '') + '>›</button>';
     return h + '</div>';
   }
+  function msSheet() {
+    const m = S.milestones.find((x) => x.id === S.msSheet); if (!m) return '';
+    const P = plain(m);
+    return '<div class="sv-bg" data-act="ms-sheet-close"></div><div class="fd-sheet" role="dialog" aria-modal="true" aria-label="' + esc(m.name) + '"><div class="fd-grab" aria-hidden="true"></div><div class="fd-sheet-h"><span class="fd-sheet-em" aria-hidden="true">' + P[0] + '</span><div><b>' + esc(P[1]) + '</b><span>' + esc(stageNext(m)) + '</span></div><button type="button" class="sv-x dark" data-act="ms-sheet-close" aria-label="Close">✕</button></div>' + msCard(m, true) + '</div>';
+  }
+  function todoTarget(x) {
+    if (x.act === 'scroll' && /^ms-/.test(x.id || '')) return 'data-act="ms-sheet" data-id="' + esc(x.id.slice(3)) + '"';
+    return 'data-act="' + esc(x.act) + '"' + (x.act === 'tab' ? ' data-tab="' + esc(x.id) + '"' : ' data-id="' + esc(x.id) + '"');
+  }
+  const todoEmoji = (x) => /^Approve|^Sign off/.test(x.txt) ? '✅' : /^Choose/.test(x.txt) ? '🎨' : /^Send money/.test(x.txt) ? '💸' : /^Decide/.test(x.txt) ? '🤔' : /^Check/.test(x.txt) ? '🧱' : /^Confirm/.test(x.txt) ? '🔧' : '📌';
+  const todoWhy = (x) => /^Approve/.test(x.txt) ? 'The engineer checked the work. Approve so your builder gets paid.' : /^Sign off/.test(x.txt) ? 'Sign off so the next stage can start.' : /^Choose/.test(x.txt) ? 'Pick one so the builder can order it in time.' : /^Send money/.test(x.txt) ? 'Top up your account so the next payment doesn’t get stuck.' : /^Decide/.test(x.txt) ? 'The builder wants to change something. Yes or no?' : /^Check/.test(x.txt) ? 'Make sure the builder uses what you agreed.' : /^Confirm/.test(x.txt) ? 'Have a look and say if it’s really fixed.' : '';
   function feedPost(l) {
     const mine = (l.reactions || {})[myId()] || null, counts = {};
     Object.values(l.reactions || {}).forEach((e) => { counts[e] = (counts[e] || 0) + 1; });
@@ -4635,57 +4741,66 @@ ol.todo li.bad { box-shadow: var(--shadow), inset 4px 0 0 var(--bad); }
     return h + '</article>';
   }
   function ownerFeedHome() {
-    const p = S.project, H = ownerHealth(), todos = ownerTodos(), V = feedVibe(H, todos);
+    const p = S.project, H = ownerHealth(), pay = (x) => /^Approve|^Sign off/.test(x.txt) ? 0 : 1, todos = ownerTodos().sort((a, b) => pay(a) - pay(b));
     const steps = S.milestones.slice().sort((a, b) => a.seq - b.seq);
     const first = (S.me && S.me.name ? S.me.name.split(' ')[0] : '');
     let h = '<div class="fd">';
-    // top bar
     h += '<div class="fd-top"><div><div class="fd-hey">' + (lang() === 'id' ? 'Hai' : 'Hey') + (first ? ' <span class="noi18n">' + esc(first) + '</span>' : '') + ' 👋</div><div class="fd-proj">' + esc(p.name || 'Your villa') + (p.location ? ' · ' + esc(p.location.split(',')[0]) : '') + '</div></div>' +
-      '<button type="button" class="fd-share" data-act="share-open" aria-expanded="' + !!S.share.open + '"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg><span>Share</span></button></div>';
+      '<button type="button" class="fd-share" data-act="share-open" aria-expanded="' + !!S.share.open + '" aria-label="Share your build"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg><span>Share</span></button></div>';
     if (S.share.open) h += sharePanel();
-    // stories
-    h += '<div class="fd-stories" role="list" aria-label="Building stages">' + steps.map((m, i) => '<div role="listitem">' + storyRing(m, i, H.cur) + '</div>').join('') + '</div>';
-    // hero
-    h += '<section class="fd-hero ' + V.tone + '" data-ak="vibe-' + V.tone + '"><div class="fd-art">' + villaArt() + '</div><div class="fd-hero-b"><div class="fd-pct"><span class="num">' + H.built + '%</span><small>built</small></div><div class="fd-vibe"><span class="fd-emo" aria-hidden="true">' + V.emoji + '</span><div><b>' + esc(V.head) + '</b><span>' + esc(V.sub) + '</span></div></div>' +
-      '<div class="fd-now">Now: <b>' + esc(H.cur ? H.cur.name : 'All done 🎉') + '</b>' + (H.cur ? ' · step ' + H.cur.seq + ' of ' + steps.length : '') + '</div></div></section>';
-    // stat chips
-    const Mo = H.money, Q = H.quality, streak = logStreak();
-    const chip = (tone, e, big, small, tab) => '<button type="button" class="fd-chip ' + tone + '" data-act="tab" data-tab="' + tab + '"><span class="fd-ce" aria-hidden="true">' + e + '</span><span><b>' + big + '</b><small>' + small + '</small></span></button>';
-    h += '<div class="fd-chips">' +
-      chip(H.time.tone, '⏱️', esc(H.time.ans), esc(H.time.sub), 'schedule') +
-      chip(Mo.tone, '💸', esc(short(Mo.paid)), 'paid of ' + esc(short(Mo.total)), 'money') +
-      chip(Q.tone, '🔧', Q.od ? Q.od + ' to fix' : 'No fixes', Q.insp ? Q.passed + '/' + Q.insp + ' checks passed' : 'No checks yet', 'defects') +
-      (streak > 1 ? chip('good', '🔥', streak + '-day streak', 'builder posting daily', 'log') : '') +
-      '</div>';
-    // needs you
-    h += '<section class="fd-sec"><div class="fd-sh"><h2>Needs you</h2>' + (todos.length ? '<span class="fd-count num">' + todos.length + '</span>' : '') + '</div>';
+    // first-visit tips
+    if (store.get('vt-coach-feed') !== '1') h += '<div class="fd-coach" role="note"><b>👋 New here? Three things to know</b><ol><li><b>Your next move</b> is always the first card. Tap its button.</li><li><b>Should you worry?</b> Three yes-or-no answers, green means fine.</li><li><b>Tap a circle</b> to see each building step in plain words.</li></ol><button type="button" class="btn primary" data-act="coach-done">Got it</button></div>';
+    // 1. next move
+    h += '<section class="fd-sec" aria-labelledby="fd-next-h"><div class="fd-sh"><h2 id="fd-next-h">Your next move</h2>' + (todos.length > 1 ? '<span class="fd-count num">' + todos.length + '</span>' : '') + '</div>';
     if (todos.length) {
-      const em = (x) => /^Approve|^Sign off/.test(x.txt) ? '✅' : /^Choose/.test(x.txt) ? '🎨' : /^Send money/.test(x.txt) ? '💸' : /^Decide/.test(x.txt) ? '🤔' : /^Check/.test(x.txt) ? '🧱' : /^Confirm/.test(x.txt) ? '🔧' : '📌';
-      h += '<div class="fd-cards">' + todos.map((x, i) => '<article class="fd-card ' + x.tone + '" data-ak="todo-' + i + '-' + esc(x.txt.slice(0, 20)) + '"><span class="fd-cem" aria-hidden="true">' + em(x) + '</span><b>' + esc(x.txt) + '</b><span class="fd-csub">' + esc(x.sub) + '</span><button type="button" class="btn primary" data-act="' + esc(x.act) + '"' + (x.act === 'tab' ? ' data-tab="' + esc(x.id) + '"' : ' data-id="' + esc(x.id) + '"') + '>' + esc(x.btn || 'Open') + '</button></article>').join('') + '</div>';
-    } else h += '<div class="fd-zero"><span aria-hidden="true">🌴</span><b>You’re all caught up</b><span>We’ll ping you when something needs your OK.</span></div>';
+      const x = todos[0];
+      h += '<article class="fd-next ' + x.tone + '" data-ak="next-' + esc(x.txt.slice(0, 24)) + '"><span class="fd-next-em" aria-hidden="true">' + todoEmoji(x) + '</span><div class="fd-next-b"><b>' + esc(x.txt) + '</b><span>' + esc(x.sub) + '</span>' + (todoWhy(x) ? '<small>' + esc(todoWhy(x)) + '</small>' : '') + '</div><button type="button" class="btn primary fd-go" ' + todoTarget(x) + '>' + esc(x.btn || 'Open') + ' →</button></article>';
+      if (todos.length > 1) {
+        const open = !!S.open['todo-all'];
+        h += '<button type="button" class="fd-also" data-act="' + (open ? 'close' : 'open') + '" data-key="todo-all" aria-expanded="' + open + '">' + (open ? 'Hide the rest' : 'Then ' + (todos.length - 1) + ' more thing' + (todos.length - 1 === 1 ? '' : 's')) + ' <span aria-hidden="true">' + (open ? '▴' : '▾') + '</span></button>';
+        if (open) h += '<ul class="fd-list">' + todos.slice(1).map((y) => '<li class="' + y.tone + '"><span aria-hidden="true">' + todoEmoji(y) + '</span><div><b>' + esc(y.txt) + '</b><small>' + esc(y.sub) + '</small></div><button type="button" class="btn quiet" ' + todoTarget(y) + '>' + esc(y.btn || 'Open') + '</button></li>').join('') + '</ul>';
+      }
+    } else h += '<div class="fd-zero"><span aria-hidden="true">🌴</span><b>Nothing to do. You’re all caught up.</b><span>We’ll show it here the moment something needs you.</span></div>';
     h += '</section>';
-    // payments waiting (targets for the cards above)
-    const decisions = S.milestones.filter((m) => m.status === 'inspected' || (m.status === 'submitted' && !m.needsInspection));
-    if (decisions.length) h += '<section class="fd-sec"><div class="fd-sh"><h2>Payments waiting for your OK</h2></div>' + decisions.map((m) => '<div id="ms-' + esc(m.id) + '">' + msCard(m, true) + '</div>').join('') + '</section>';
-    // feed
-    const items = feedItems(), lim = S.open['feed-all'] ? 60 : 8;
-    h += '<section class="fd-sec"><div class="fd-sh"><h2>From the site</h2><button type="button" class="fd-link" data-act="tab" data-tab="log">All updates</button></div>';
+    // 2. should I worry?
+    const Mo = H.money, Q = H.quality;
+    const ans = (tone, yes, mid, no) => tone === 'good' ? yes : tone === 'warn' ? mid : no;
+    const tile = (tone, q, a, sub, tab) => '<button type="button" class="fd-q ' + tone + '" data-act="tab" data-tab="' + tab + '"><span class="fd-q-q">' + q + '</span><span class="fd-q-a"><span class="fd-dot" aria-hidden="true"></span>' + a + '</span><span class="fd-q-s">' + sub + '</span></button>';
+    h += '<section class="fd-sec" aria-labelledby="fd-worry-h"><div class="fd-sh"><h2 id="fd-worry-h">Should I worry?</h2></div><div class="fd-qs">' +
+      tile(H.time.tone, 'On time?', ans(H.time.tone, 'Yes', 'A bit late', 'No, late'), esc(H.time.ans) + ' · move in ' + esc(monthTxt(H.time.finish)), 'schedule') +
+      tile(Mo.tone, 'Money OK?', ans(Mo.tone, 'Yes', 'Check soon', 'Act now'), esc(short(Mo.paid)) + ' paid of ' + esc(short(Mo.total)), 'money') +
+      tile(Q.tone, 'Work OK?', ans(Q.tone, 'Yes', 'Mostly', 'Needs fixing'), Q.od ? Q.od + ' small thing' + (Q.od === 1 ? '' : 's') + ' to fix' : Q.insp ? 'All checks passed' : 'No checks yet', 'defects') +
+      '</div></section>';
+    // 3. where is my build at
+    h += '<section class="fd-sec" aria-labelledby="fd-build-h"><div class="fd-sh"><h2 id="fd-build-h">Where’s my build at?</h2><span class="fd-hint">Tap a step</span></div>';
+    h += '<div class="fd-stories" role="list" aria-label="Building steps">' + steps.map((m, i) => '<div role="listitem">' + storyRing(m, i, H.cur) + '</div>').join('') + '</div>';
+    const cur = H.cur, CP = cur ? plain(cur) : null;
+    h += '<div class="fd-hero" data-ak="hero-' + (cur ? cur.id : 'done') + '"><div class="fd-art">' + villaArt() + '</div><div class="fd-hero-b"><div class="fd-pct"><span class="num">' + H.built + '%</span><small>built</small></div>' +
+      '<div class="fd-meter" role="img" aria-label="' + H.built + '% built"><span style="width:' + H.built + '%"></span></div>' +
+      (cur ? '<p class="fd-nowp">Right now: <b>' + esc(CP[1].toLowerCase()) + '</b> <span class="fd-hint">(step ' + cur.seq + ' of ' + steps.length + ')</span></p><p class="fd-hint">' + esc(stageNext(cur)) + '</p><button type="button" class="btn quiet" data-act="story" data-id="' + esc(cur.id) + '">See this step</button>' : '<p class="fd-nowp"><b>All steps done 🎉</b></p>') + '</div></div></section>';
+    // 4. feed
+    const items = feedItems(), lim = S.open['feed-all'] ? 60 : 6, streak = logStreak();
+    h += '<section class="fd-sec" aria-labelledby="fd-feed-h"><div class="fd-sh"><h2 id="fd-feed-h">What’s new on site</h2>' + (streak > 1 ? '<span class="fd-streak">🔥 ' + streak + '-day streak</span>' : '') + '<button type="button" class="fd-link" data-act="tab" data-tab="log">See all</button></div>';
     if (items.length) {
       h += '<div class="fd-feed">' + items.slice(0, lim).map((x) => x.kind === 'post' ? feedPost(x.log) :
-        '<div class="fd-ev ' + (x.tone || '') + '"><span class="fd-eve" aria-hidden="true">' + x.e + '</span><div><b>' + esc(x.txt) + '</b><span>' + (x.sub ? esc(x.sub) + ' · ' : '') + esc(ago(x.at)) + '</span></div>' + (x.ms ? '<button type="button" class="fd-link" data-act="story" data-id="' + esc(x.ms) + '">View</button>' : '') + '</div>').join('') + '</div>';
-      if (items.length > lim) h += '<button type="button" class="btn quiet fd-more" data-act="open" data-key="feed-all">Show more</button>';
-    } else h += '<div class="fd-zero"><span aria-hidden="true">📸</span><b>No updates yet</b><span>Your builder’s photos and notes will show up here, like a feed.</span></div>';
+        '<button type="button" class="fd-ev ' + (x.tone || '') + '"' + (x.ms ? ' data-act="story" data-id="' + esc(x.ms) + '"' : ' disabled') + '><span class="fd-eve" aria-hidden="true">' + x.e + '</span><span class="fd-evb"><b>' + esc(x.txt) + '</b><span>' + (x.sub ? esc(x.sub) + ' · ' : '') + esc(ago(x.at)) + '</span></span>' + (x.ms ? '<span class="fd-chev" aria-hidden="true">›</span>' : '') + '</button>').join('') + '</div>';
+      if (items.length > lim) h += '<button type="button" class="btn quiet fd-more" data-act="open" data-key="feed-all">Show older updates</button>';
+    } else h += '<div class="fd-zero"><span aria-hidden="true">📸</span><b>No updates yet</b><span>Your builder’s photos and notes will appear here.</span></div>';
     h += '</section>';
     if (S.sample || S.digests.length) h += digestBlock();
     const k = 'ov-all';
-    h += '<section class="fd-sec"><details class="rep big" data-key="' + k + '"' + (S.open[k] ? ' open' : '') + '><summary>All payment steps in detail</summary>' + S.milestones.filter((m) => decisions.indexOf(m) < 0).map((m) => msCard(m, false)).join('') + '</details></section>';
+    h += '<section class="fd-sec"><details class="rep big" data-key="' + k + '"' + (S.open[k] ? ' open' : '') + '><summary>All payment steps in detail</summary>' + S.milestones.filter((m) => m.id !== S.msSheet).map((m) => msCard(m, needsYou(m))).join('') + '</details></section>';
     h += '</div>';
     if (S.story) h += storyView();
+    else if (S.msSheet) h += msSheet();
     return h;
   }
   async function onActFeed(el) {
     const a = el.dataset.act;
     if (a === 'story') { S.story = el.dataset.id; render(); return true; }
+    if (a === 'ms-sheet') { S.story = null; S.msSheet = el.dataset.id; render(); return true; }
+    if (a === 'ms-sheet-close') { S.msSheet = null; render(); return true; }
+    if (a === 'coach-done') { store.set('vt-coach-feed', '1'); render(); return true; }
     if (a === 'story-close') { S.story = null; render(); return true; }
     if (a === 'story-nav') {
       const steps = S.milestones.slice().sort((x, y) => x.seq - y.seq), i = steps.findIndex((m) => m.id === S.story) + Number(el.dataset.id);
@@ -4702,6 +4817,7 @@ ol.todo li.bad { box-shadow: var(--shadow), inset 4px 0 0 var(--bad); }
     return false;
   }
   document.addEventListener('keydown', (e) => {
+    if (S.msSheet && !S.story && e.key === 'Escape') { S.msSheet = null; render(); return; }
     if (!S.story) return;
     if (e.key === 'Escape') { S.story = null; render(); }
     else if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { const steps = S.milestones.slice().sort((x, y) => x.seq - y.seq), i = steps.findIndex((m) => m.id === S.story) + (e.key === 'ArrowRight' ? 1 : -1); if (steps[i]) { S.story = steps[i].id; render(); } }
@@ -4716,7 +4832,36 @@ ol.todo li.bad { box-shadow: var(--shadow), inset 4px 0 0 var(--bad); }
     'No fixes': 'Tidak ada perbaikan', 'No checks yet': 'Belum ada pemeriksaan', 'builder posting daily': 'kontraktor update setiap hari',
     'Done means:': 'Selesai berarti:', 'Builder:': 'Kontraktor:', 'Engineer: passed': 'Insinyur: lolos', 'Engineer: needs fixing': 'Insinyur: perlu perbaikan',
     'Coming up. Photos land here once work starts.': 'Segera. Foto muncul di sini setelah pekerjaan dimulai.', 'No photos yet.': 'Belum ada foto.',
-    'All done 🎉': 'Semua selesai 🎉', 'Now:': 'Sekarang:'
+    'All done 🎉': 'Semua selesai 🎉', 'Now:': 'Sekarang:',
+    'Your next move': 'Langkah Anda berikutnya', 'Should I worry?': 'Perlu khawatir?', 'Where’s my build at?': 'Sampai mana proyek saya?', 'What’s new on site': 'Yang baru di lokasi',
+    'Tap a step': 'Ketuk satu tahap', 'See all': 'Lihat semua', 'Show older updates': 'Lihat update lama', 'See this step': 'Lihat tahap ini', 'Hide the rest': 'Sembunyikan',
+    'On time?': 'Tepat waktu?', 'Money OK?': 'Uang aman?', 'Work OK?': 'Pekerjaan beres?', 'Yes': 'Ya', 'A bit late': 'Agak terlambat', 'No, late': 'Tidak, terlambat',
+    'Check soon': 'Cek segera', 'Act now': 'Segera bertindak', 'Mostly': 'Hampir semua', 'Needs fixing': 'Perlu perbaikan', 'All checks passed': 'Semua pemeriksaan lolos',
+    'Got it': 'Mengerti', 'What happens now': 'Yang terjadi sekarang', 'Payment for this step': 'Pembayaran tahap ini', 'Builder says:': 'Kata kontraktor:',
+    'Review and approve payment': 'Tinjau dan setujui pembayaran', 'Sign off this step': 'Setujui tahap ini',
+    'Nothing to do. You’re all caught up.': 'Tidak ada yang perlu dilakukan. Semua beres.', 'We’ll show it here the moment something needs you.': 'Kami tampilkan di sini begitu ada yang perlu Anda.',
+    'Your builder’s photos and notes will appear here.': 'Foto dan catatan kontraktor akan muncul di sini.', 'Right now:': 'Sekarang:', 'All steps done 🎉': 'Semua tahap selesai 🎉',
+    'The builder sets up the site': 'Kontraktor menyiapkan lokasi', 'The base your house sits on': 'Fondasi tempat rumah berdiri', 'The concrete frame': 'Rangka beton',
+    'Roof on, walls up': 'Atap terpasang, dinding berdiri', 'Pipes, wiring and the pool': 'Pipa, listrik, dan kolam', 'Tiles, paint and fittings': 'Keramik, cat, dan perlengkapan',
+    'Keys, plus a safety buffer': 'Serah kunci, plus dana jaminan',
+    'Fence, site office, water and power. Nothing built yet.': 'Pagar, kantor lapangan, air dan listrik. Belum ada bangunan.',
+    'Concrete footings and ground beams. Hidden later, so it must be checked now.': 'Pondasi beton dan sloof. Nanti tertutup, jadi harus diperiksa sekarang.',
+    'Columns, beams and floor slabs. This is what holds the house up.': 'Kolom, balok, dan plat lantai. Inilah yang menopang rumah.',
+    'The house is closed from the rain and looks like a house.': 'Rumah sudah terlindung dari hujan dan mulai berbentuk.',
+    'Water, power and the pool shell, tested before walls are finished.': 'Air, listrik, dan struktur kolam, diuji sebelum dinding selesai.',
+    'Everything you see and touch, installed as you chose.': 'Semua yang Anda lihat dan sentuh, dipasang sesuai pilihan Anda.',
+    'The last part is held back until any defects are fixed.': 'Bagian terakhir ditahan sampai semua cacat diperbaiki.',
+    'Starts after the stage before it.': 'Dimulai setelah tahap sebelumnya.', 'The builder is working on it. Nothing for you to do yet.': 'Kontraktor sedang mengerjakannya. Belum ada yang perlu Anda lakukan.',
+    'The builder says it’s done. An engineer will check it first.': 'Kontraktor bilang sudah selesai. Insinyur akan memeriksanya dulu.',
+    'The builder says it’s done. It’s your call to approve the payment.': 'Kontraktor bilang sudah selesai. Anda yang memutuskan pembayarannya.',
+    'The engineer found problems. Don’t pay until they’re fixed.': 'Insinyur menemukan masalah. Jangan bayar sampai diperbaiki.',
+    'The engineer says it’s OK. You can approve the payment now.': 'Insinyur bilang sudah OK. Anda bisa menyetujui pembayaran sekarang.',
+    'You approved it. The payment is on its way.': 'Anda sudah menyetujui. Pembayaran sedang diproses.', 'Done and paid. Nothing to do.': 'Selesai dan dibayar. Tidak ada yang perlu dilakukan.',
+    'This payment is on hold while you and the builder sort it out.': 'Pembayaran ini ditahan sampai Anda dan kontraktor sepakat.',
+    'The engineer checked the work. Approve so your builder gets paid.': 'Insinyur sudah memeriksa. Setujui agar kontraktor dibayar.', 'Sign off so the next stage can start.': 'Setujui agar tahap berikutnya bisa dimulai.',
+    'Pick one so the builder can order it in time.': 'Pilih satu agar kontraktor bisa memesannya tepat waktu.', 'Top up your account so the next payment doesn’t get stuck.': 'Isi saldo agar pembayaran berikutnya tidak tertahan.',
+    'The builder wants to change something. Yes or no?': 'Kontraktor ingin mengubah sesuatu. Ya atau tidak?', 'Make sure the builder uses what you agreed.': 'Pastikan kontraktor memakai yang sudah disepakati.',
+    'Have a look and say if it’s really fixed.': 'Lihat dan pastikan benar-benar sudah diperbaiki.'
   });
   I18N_RX.push(
     [/^(\d+) quick things? below\.$/, '$1 hal singkat di bawah.'],
@@ -4724,7 +4869,8 @@ ol.todo li.bad { box-shadow: var(--shadow), inset 4px 0 0 var(--bad); }
     [/^Engineer visit booked for (.+)$/, 'Kunjungan insinyur dijadwalkan $1'], [/^Engineer passed (.+)$/, 'Insinyur meloloskan $1'],
     [/^Engineer found problems in (.+)$/, 'Insinyur menemukan masalah di $1'], [/^Payment sent for (.+)$/, 'Pembayaran dikirim untuk $1'],
     [/^(\d+)-day streak$/, '$1 hari berturut-turut'], [/^(\d+) to fix$/, '$1 perlu diperbaiki'], [/^(\d+)\/(\d+) checks passed$/, '$1/$2 pemeriksaan lolos'],
-    [/^paid of (.+)$/, 'dibayar dari $1'], [/^step (\d+) of (\d+)$/, 'tahap $1 dari $2']
+    [/^paid of (.+)$/, 'dibayar dari $1'], [/^step (\d+) of (\d+)$/, 'tahap $1 dari $2'], [/^\(step (\d+) of (\d+)\)$/, '(tahap $1 dari $2)'], [/^Step (\d+) of (\d+)$/, 'Tahap $1 dari $2'],
+    [/^Then (\d+) more things?$/, 'Lalu $1 hal lagi'], [/^(\d+) small things? to fix$/, '$1 hal kecil perlu diperbaiki'], [/^(.+) paid of (.+)$/, '$1 dibayar dari $2']
   );
 
   boot();
