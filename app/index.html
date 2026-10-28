@@ -905,10 +905,10 @@ ol.todo li.bad { box-shadow: var(--shadow), inset 4px 0 0 var(--bad); }
 /* v2: next move, worry tiles, plain steps, sheet */
 .fd-hint { color: var(--muted); font-size: 13px; font-weight: 500; }
 .fd-sh .fd-hint { margin-left: auto; }
-.fd-coach { background: var(--surface); border: 2px dashed var(--accent); border-radius: 22px; padding: 18px; display: grid; gap: 10px; }
-.fd-coach ol { margin: 0; padding-left: 20px; display: grid; gap: 6px; color: var(--muted); }
-.fd-coach ol b { color: var(--ink); }
-.fd-coach .btn { justify-self: start; border-radius: 999px; }
+.fd-coach { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; background: var(--sun-soft); border-radius: 16px; padding: 10px 12px; font-size: 14px; }
+.fd-coach > span { font-size: 20px; }
+.fd-coach p { margin: 0; }
+.fd-coach-x { background: var(--surface); border: 1px solid var(--line); border-radius: 999px; min-height: 36px; padding: 0 12px; font: 700 13px var(--sans); color: var(--ink); cursor: pointer; white-space: nowrap; }
 .fd-next { display: grid; grid-template-columns: auto 1fr; gap: 14px 16px; align-items: start; padding: 20px; border-radius: 24px; background: var(--surface); border: 2px solid var(--accent); box-shadow: var(--shadow); }
 .fd-next.bad { border-color: var(--bad); background: linear-gradient(160deg, var(--bad-soft), var(--surface) 65%); }
 .fd-next.warn { border-color: var(--sun); background: linear-gradient(160deg, var(--sun-soft), var(--surface) 65%); }
@@ -972,6 +972,29 @@ button.fd-ev:disabled { cursor: default; opacity: 1; }
 .fd-sheet-h b { display: block; font-size: 18px; }
 .fd-sheet-h span { color: var(--muted); font-size: 14px; }
 @media (prefers-reduced-motion: no-preference) { .fd-sheet { animation: sheetup .25s ease-out both; } @keyframes sheetup { from { transform: translate(-50%, 30px); opacity: 0; } } .sv { animation: svin .2s ease-out both; } @keyframes svin { from { opacity: 0; transform: translate(-50%, -48%) scale(.97); } } }
+
+/* v3: fresh updates, countdown, photo viewer */
+.fd-fresh { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 48px; padding: 0 16px; border-radius: 999px; border: 0; cursor: pointer; font: 700 14.5px var(--sans); color: #fff; background: linear-gradient(90deg, var(--accent), #2152A3); box-shadow: var(--shadow); text-align: left; }
+.fd-fresh span:last-child { margin-left: auto; }
+.fd-fresh-dot { width: 9px; height: 9px; border-radius: 50%; background: #fff; flex: none; }
+@media (prefers-reduced-motion: no-preference) { .fd-fresh-dot { animation: fdblink 1.4s ease-in-out infinite; } @keyframes fdblink { 50% { opacity: .3; } } }
+.fd-post { position: relative; }
+.fd-post.new { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.fd-new { position: absolute; top: 14px; right: 14px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: #fff; background: var(--coral); padding: 4px 8px; border-radius: 999px; }
+.fd-ev.new { border-color: var(--accent); background: linear-gradient(90deg, var(--accent-soft), var(--surface) 60%); }
+.fd-pct { flex-wrap: wrap; row-gap: 6px; }
+.fd-days { margin-left: auto; display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 600; color: var(--muted); background: var(--bg); border-radius: 999px; padding: 6px 12px; }
+.fd-days b { color: var(--ink); font-size: 15px; }
+.fd-ph { padding: 0; border: 0; background: none; cursor: zoom-in; display: block; }
+.fd-pics .fd-ph { flex: 0 0 86%; max-width: 86%; scroll-snap-align: start; }
+.fd-pics.one .fd-ph { flex-basis: 100%; max-width: 100%; }
+.fd-pics .fd-ph img { width: 100%; max-width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; background: var(--bg); }
+.sv-pics .fd-ph img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px; display: block; }
+.lb { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center; }
+.lb-bg { position: absolute; inset: 0; background: rgba(0,0,0,.92); border: 0; cursor: zoom-out; }
+.lb-img { position: relative; max-width: calc(100vw - 24px); max-height: calc(100vh - 120px); object-fit: contain; border-radius: 12px; pointer-events: none; }
+.lb-top { position: absolute; top: calc(12px + env(safe-area-inset-top, 0px)); left: 16px; right: 16px; display: flex; justify-content: space-between; align-items: center; color: #fff; font-weight: 700; }
+.lb .sv-nav { position: absolute; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="config.js?v=2"></script>
@@ -4713,7 +4736,7 @@ button.fd-ev:disabled { cursor: default; opacity: 1; }
     if (ctype() !== 'costplus') h += '<div class="sv-amt"><span>Payment for this step</span><b class="num">' + esc(short(msAmount(m))) + '</b></div>';
     if (m.inspection && m.inspection.at) h += '<p class="sv-rule"><b>' + (m.inspection.result === 'fail' ? '❌ Engineer: needs fixing' : '✅ Engineer: passed') + '</b>' + (m.inspection.notes ? '<br>' + esc(clip(m.inspection.notes, 160)) : '') + '</p>';
     if (m.submitNote) h += '<p class="sv-rule"><b>Builder says:</b> ' + esc(clip(m.submitNote, 160)) + '</p>';
-    if (pics.length) h += '<div class="sv-pics">' + pics.slice(0, 6).map((p) => '<img alt="Site photo" loading="lazy" src="' + __vtBlob(p) + '">').join('') + '</div>';
+    if (pics.length) h += '<div class="sv-pics">' + pics.slice(0, 6).map((p, k) => '<button type="button" class="fd-ph" data-act="photo" data-id="' + k + '" data-set="' + esc(pics.slice(0, 6).join(',')) + '" aria-label="Open photo ' + (k + 1) + '"><img alt="Site photo" loading="lazy" src="' + __vtBlob(p) + '"></button>').join('') + '</div>';
     if (needsYou(m)) h += '<button type="button" class="sv-cta" data-act="ms-sheet" data-id="' + esc(m.id) + '">' + (ctype() === 'costplus' ? 'Sign off this step' : 'Review and approve payment') + '</button>';
     h += '</div>';
     h += '<button type="button" class="sv-nav prev" data-act="story-nav" data-id="-1" aria-label="Previous step"' + (i === 0 ? ' disabled' : '') + '>‹</button><button type="button" class="sv-nav next" data-act="story-nav" data-id="1" aria-label="Next step"' + (i === steps.length - 1 ? ' disabled' : '') + '>›</button>';
@@ -4734,8 +4757,9 @@ button.fd-ev:disabled { cursor: default; opacity: 1; }
     const mine = (l.reactions || {})[myId()] || null, counts = {};
     Object.values(l.reactions || {}).forEach((e) => { counts[e] = (counts[e] || 0) + 1; });
     const ms = l.phase ? S.milestones.find((m) => m.id === l.phase) : null;
-    let h = '<article class="fd-post" data-ak="post-' + esc(l.id) + '"><header class="fd-h">' + avatar(l.by) + '<div class="fd-who"><b class="noi18n">' + esc(nameOf(l.by)) + '</b><span>' + esc(ROLES[l.role] ? ROLES[l.role].label : 'Team') + (ms ? ' · ' + esc(ms.name) : '') + ' · ' + esc(ago(l.at)) + '</span></div></header>';
-    if ((l.photos || []).length) h += '<div class="fd-pics' + (l.photos.length === 1 ? ' one' : '') + '">' + l.photos.slice(0, 8).map((p) => '<img alt="Site photo" loading="lazy" src="' + __vtBlob(p) + '">').join('') + '</div>';
+    const isNew = S.feedSeenPrev && l.by !== myId() && String(l.at) > S.feedSeenPrev;
+    let h = '<article class="fd-post' + (isNew ? ' new' : '') + '" data-ak="post-' + esc(l.id) + '">' + (isNew ? '<span class="fd-new">New</span>' : '') + '<header class="fd-h">' + avatar(l.by) + '<div class="fd-who"><b class="noi18n">' + esc(nameOf(l.by)) + '</b><span>' + esc(ROLES[l.role] ? ROLES[l.role].label : 'Team') + (ms ? ' · ' + esc(ms.name) : '') + ' · ' + esc(ago(l.at)) + '</span></div></header>';
+    if ((l.photos || []).length) h += '<div class="fd-pics' + (l.photos.length === 1 ? ' one' : '') + '">' + l.photos.slice(0, 8).map((p, k) => '<button type="button" class="fd-ph" data-act="photo" data-id="' + k + '" data-set="' + esc(l.photos.slice(0, 8).join(',')) + '" aria-label="Open photo ' + (k + 1) + '"><img alt="Site photo" loading="lazy" src="' + __vtBlob(p) + '"></button>').join('') + '</div>';
     if (l.note) h += '<p class="fd-txt">' + esc(clip(l.note, 400)) + '</p>';
     h += '<div class="fd-re" role="group" aria-label="React">' + FEED_REACTS.map((e) => '<button type="button" class="' + (mine === e ? 'on' : '') + '" data-act="react" data-id="' + esc(l.id) + '" data-emo="' + e + '" aria-pressed="' + (mine === e) + '">' + e + (counts[e] ? '<small class="num">' + counts[e] + '</small>' : '') + '</button>').join('') + '<button type="button" class="fd-ask" data-act="tab" data-tab="log">Ask</button></div>';
     return h + '</article>';
@@ -4744,12 +4768,13 @@ button.fd-ev:disabled { cursor: default; opacity: 1; }
     const p = S.project, H = ownerHealth(), pay = (x) => /^Approve|^Sign off/.test(x.txt) ? 0 : 1, todos = ownerTodos().sort((a, b) => pay(a) - pay(b));
     const steps = S.milestones.slice().sort((a, b) => a.seq - b.seq);
     const first = (S.me && S.me.name ? S.me.name.split(' ')[0] : '');
+    if (S.feedSeenPrev === undefined) { S.feedSeenPrev = store.get('vt-seen-feed') || null; store.set('vt-seen-feed', now()); }
+    const fresh = S.feedSeenPrev ? feedItems().filter((x) => String(x.at) > S.feedSeenPrev && (x.kind !== 'post' || x.log.by !== myId())).length : 0;
     let h = '<div class="fd">';
     h += '<div class="fd-top"><div><div class="fd-hey">' + (lang() === 'id' ? 'Hai' : 'Hey') + (first ? ' <span class="noi18n">' + esc(first) + '</span>' : '') + ' 👋</div><div class="fd-proj">' + esc(p.name || 'Your villa') + (p.location ? ' · ' + esc(p.location.split(',')[0]) : '') + '</div></div>' +
       '<button type="button" class="fd-share" data-act="share-open" aria-expanded="' + !!S.share.open + '" aria-label="Share your build"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg><span>Share</span></button></div>';
     if (S.share.open) h += sharePanel();
-    // first-visit tips
-    if (store.get('vt-coach-feed') !== '1') h += '<div class="fd-coach" role="note"><b>👋 New here? Three things to know</b><ol><li><b>Your next move</b> is always the first card. Tap its button.</li><li><b>Should you worry?</b> Three yes-or-no answers, green means fine.</li><li><b>Tap a circle</b> to see each building step in plain words.</li></ol><button type="button" class="btn primary" data-act="coach-done">Got it</button></div>';
+    if (fresh) h += '<button type="button" class="fd-fresh" data-act="scroll" data-id="fd-feed-h"><span class="fd-fresh-dot" aria-hidden="true"></span>' + fresh + ' new update' + (fresh === 1 ? '' : 's') + ' since you last looked <span aria-hidden="true">↓</span></button>';
     // 1. next move
     h += '<section class="fd-sec" aria-labelledby="fd-next-h"><div class="fd-sh"><h2 id="fd-next-h">Your next move</h2>' + (todos.length > 1 ? '<span class="fd-count num">' + todos.length + '</span>' : '') + '</div>';
     if (todos.length) {
@@ -4762,20 +4787,21 @@ button.fd-ev:disabled { cursor: default; opacity: 1; }
       }
     } else h += '<div class="fd-zero"><span aria-hidden="true">🌴</span><b>Nothing to do. You’re all caught up.</b><span>We’ll show it here the moment something needs you.</span></div>';
     h += '</section>';
+    if (store.get('vt-coach-feed') !== '1') h += '<div class="fd-coach" role="note"><span aria-hidden="true">💡</span><p><b>Tip:</b> start with your next move above. Green dots mean all fine. Tap a picture circle to learn each building step.</p><button type="button" class="fd-coach-x" data-act="coach-done" aria-label="Hide tip">Got it</button></div>';
     // 2. should I worry?
     const Mo = H.money, Q = H.quality;
     const ans = (tone, yes, mid, no) => tone === 'good' ? yes : tone === 'warn' ? mid : no;
     const tile = (tone, q, a, sub, tab) => '<button type="button" class="fd-q ' + tone + '" data-act="tab" data-tab="' + tab + '"><span class="fd-q-q">' + q + '</span><span class="fd-q-a"><span class="fd-dot" aria-hidden="true"></span>' + a + '</span><span class="fd-q-s">' + sub + '</span></button>';
     h += '<section class="fd-sec" aria-labelledby="fd-worry-h"><div class="fd-sh"><h2 id="fd-worry-h">Should I worry?</h2></div><div class="fd-qs">' +
       tile(H.time.tone, 'On time?', ans(H.time.tone, 'Yes', 'A bit late', 'No, late'), esc(H.time.ans) + ' · move in ' + esc(monthTxt(H.time.finish)), 'schedule') +
-      tile(Mo.tone, 'Money OK?', ans(Mo.tone, 'Yes', 'Check soon', 'Act now'), esc(short(Mo.paid)) + ' paid of ' + esc(short(Mo.total)), 'money') +
+      tile(Mo.tone, 'Money OK?', ans(Mo.tone, 'Yes', 'Check soon', 'Act now'), Mo.call ? 'Send ' + esc(short(Mo.call.short)) + (Mo.call.by != null ? ' by ' + esc(dshort(Mo.call.by)) : '') : esc(short(Mo.paid)) + ' paid of ' + esc(short(Mo.total)), 'money') +
       tile(Q.tone, 'Work OK?', ans(Q.tone, 'Yes', 'Mostly', 'Needs fixing'), Q.od ? Q.od + ' small thing' + (Q.od === 1 ? '' : 's') + ' to fix' : Q.insp ? 'All checks passed' : 'No checks yet', 'defects') +
       '</div></section>';
     // 3. where is my build at
     h += '<section class="fd-sec" aria-labelledby="fd-build-h"><div class="fd-sh"><h2 id="fd-build-h">Where’s my build at?</h2><span class="fd-hint">Tap a step</span></div>';
     h += '<div class="fd-stories" role="list" aria-label="Building steps">' + steps.map((m, i) => '<div role="listitem">' + storyRing(m, i, H.cur) + '</div>').join('') + '</div>';
     const cur = H.cur, CP = cur ? plain(cur) : null;
-    h += '<div class="fd-hero" data-ak="hero-' + (cur ? cur.id : 'done') + '"><div class="fd-art">' + villaArt() + '</div><div class="fd-hero-b"><div class="fd-pct"><span class="num">' + H.built + '%</span><small>built</small></div>' +
+    h += '<div class="fd-hero" data-ak="hero-' + (cur ? cur.id : 'done') + '"><div class="fd-art">' + villaArt() + '</div><div class="fd-hero-b"><div class="fd-pct"><span class="num">' + H.built + '%</span><small>built</small>' + (H.time.finish != null && H.time.finish > todayN() ? '<span class="fd-days"><span aria-hidden="true">🏡</span> <b class="num">' + (H.time.finish - todayN()) + '</b> days to move-in</span>' : '') + '</div>' +
       '<div class="fd-meter" role="img" aria-label="' + H.built + '% built"><span style="width:' + H.built + '%"></span></div>' +
       (cur ? '<p class="fd-nowp">Right now: <b>' + esc(CP[1].toLowerCase()) + '</b> <span class="fd-hint">(step ' + cur.seq + ' of ' + steps.length + ')</span></p><p class="fd-hint">' + esc(stageNext(cur)) + '</p><button type="button" class="btn quiet" data-act="story" data-id="' + esc(cur.id) + '">See this step</button>' : '<p class="fd-nowp"><b>All steps done 🎉</b></p>') + '</div></div></section>';
     // 4. feed
@@ -4783,7 +4809,7 @@ button.fd-ev:disabled { cursor: default; opacity: 1; }
     h += '<section class="fd-sec" aria-labelledby="fd-feed-h"><div class="fd-sh"><h2 id="fd-feed-h">What’s new on site</h2>' + (streak > 1 ? '<span class="fd-streak">🔥 ' + streak + '-day streak</span>' : '') + '<button type="button" class="fd-link" data-act="tab" data-tab="log">See all</button></div>';
     if (items.length) {
       h += '<div class="fd-feed">' + items.slice(0, lim).map((x) => x.kind === 'post' ? feedPost(x.log) :
-        '<button type="button" class="fd-ev ' + (x.tone || '') + '"' + (x.ms ? ' data-act="story" data-id="' + esc(x.ms) + '"' : ' disabled') + '><span class="fd-eve" aria-hidden="true">' + x.e + '</span><span class="fd-evb"><b>' + esc(x.txt) + '</b><span>' + (x.sub ? esc(x.sub) + ' · ' : '') + esc(ago(x.at)) + '</span></span>' + (x.ms ? '<span class="fd-chev" aria-hidden="true">›</span>' : '') + '</button>').join('') + '</div>';
+        '<button type="button" class="fd-ev ' + (x.tone || '') + (S.feedSeenPrev && String(x.at) > S.feedSeenPrev ? ' new' : '') + '"' + (x.ms ? ' data-act="story" data-id="' + esc(x.ms) + '"' : ' disabled') + '><span class="fd-eve" aria-hidden="true">' + x.e + '</span><span class="fd-evb"><b>' + esc(x.txt) + '</b><span>' + (x.sub ? esc(x.sub) + ' · ' : '') + esc(ago(x.at)) + '</span></span>' + (x.ms ? '<span class="fd-chev" aria-hidden="true">›</span>' : '') + '</button>').join('') + '</div>';
       if (items.length > lim) h += '<button type="button" class="btn quiet fd-more" data-act="open" data-key="feed-all">Show older updates</button>';
     } else h += '<div class="fd-zero"><span aria-hidden="true">📸</span><b>No updates yet</b><span>Your builder’s photos and notes will appear here.</span></div>';
     h += '</section>';
@@ -4791,15 +4817,31 @@ button.fd-ev:disabled { cursor: default; opacity: 1; }
     const k = 'ov-all';
     h += '<section class="fd-sec"><details class="rep big" data-key="' + k + '"' + (S.open[k] ? ' open' : '') + '><summary>All payment steps in detail</summary>' + S.milestones.filter((m) => m.id !== S.msSheet).map((m) => msCard(m, needsYou(m))).join('') + '</details></section>';
     h += '</div>';
-    if (S.story) h += storyView();
+    if (S.photo) h += photoView();
+    else if (S.story) h += storyView();
     else if (S.msSheet) h += msSheet();
     return h;
   }
+  function photoView() {
+    const L = S.photo.list, i = S.photo.i, id = L[i];
+    return '<div class="lb" role="dialog" aria-modal="true" aria-label="Photo ' + (i + 1) + ' of ' + L.length + '"><button type="button" class="lb-bg" data-act="photo-close" aria-label="Close"></button><img class="lb-img" alt="Site photo" src="' + __vtBlob(id) + '"><div class="lb-top"><span class="num">' + (i + 1) + ' / ' + L.length + '</span><button type="button" class="sv-x" data-act="photo-close" aria-label="Close">✕</button></div>' +
+      (L.length > 1 ? '<button type="button" class="sv-nav prev" data-act="photo-nav" data-id="-1" aria-label="Previous photo"' + (i === 0 ? ' disabled' : '') + '>‹</button><button type="button" class="sv-nav next" data-act="photo-nav" data-id="1" aria-label="Next photo"' + (i === L.length - 1 ? ' disabled' : '') + '>›</button>' : '') + '</div>';
+  }
+  function feedStep(dir) {
+    if (S.photo) { const j = S.photo.i + dir; if (j >= 0 && j < S.photo.list.length) { S.photo.i = j; render(); } return; }
+    if (S.story) { const steps = S.milestones.slice().sort((x, y) => x.seq - y.seq), i = steps.findIndex((m) => m.id === S.story) + dir; if (steps[i]) { S.story = steps[i].id; render(); } }
+  }
+  let fdTouch = null;
+  document.addEventListener('touchstart', (e) => { if ((S.photo || S.story) && e.touches.length === 1 && e.target.closest('.sv, .lb')) fdTouch = [e.touches[0].clientX, e.touches[0].clientY]; else fdTouch = null; }, { passive: true });
+  document.addEventListener('touchend', (e) => { if (!fdTouch) return; const t = e.changedTouches[0], dx = t.clientX - fdTouch[0], dy = t.clientY - fdTouch[1]; fdTouch = null; if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) feedStep(dx < 0 ? 1 : -1); else if (dy > 90 && Math.abs(dy) > Math.abs(dx) * 1.5) { if (S.photo) S.photo = null; else S.story = null; render(); } }, { passive: true });
   async function onActFeed(el) {
     const a = el.dataset.act;
     if (a === 'story') { S.story = el.dataset.id; render(); return true; }
     if (a === 'ms-sheet') { S.story = null; S.msSheet = el.dataset.id; render(); return true; }
     if (a === 'ms-sheet-close') { S.msSheet = null; render(); return true; }
+    if (a === 'photo') { S.photo = { list: String(el.dataset.set || '').split(',').filter(Boolean), i: Number(el.dataset.id) || 0 }; render(); return true; }
+    if (a === 'photo-close') { S.photo = null; render(); return true; }
+    if (a === 'photo-nav') { feedStep(Number(el.dataset.id)); return true; }
     if (a === 'coach-done') { store.set('vt-coach-feed', '1'); render(); return true; }
     if (a === 'story-close') { S.story = null; render(); return true; }
     if (a === 'story-nav') {
@@ -4817,6 +4859,7 @@ button.fd-ev:disabled { cursor: default; opacity: 1; }
     return false;
   }
   document.addEventListener('keydown', (e) => {
+    if (S.photo) { if (e.key === 'Escape') { S.photo = null; render(); } else if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') feedStep(e.key === 'ArrowRight' ? 1 : -1); return; }
     if (S.msSheet && !S.story && e.key === 'Escape') { S.msSheet = null; render(); return; }
     if (!S.story) return;
     if (e.key === 'Escape') { S.story = null; render(); }
@@ -4837,7 +4880,8 @@ button.fd-ev:disabled { cursor: default; opacity: 1; }
     'Tap a step': 'Ketuk satu tahap', 'See all': 'Lihat semua', 'Show older updates': 'Lihat update lama', 'See this step': 'Lihat tahap ini', 'Hide the rest': 'Sembunyikan',
     'On time?': 'Tepat waktu?', 'Money OK?': 'Uang aman?', 'Work OK?': 'Pekerjaan beres?', 'Yes': 'Ya', 'A bit late': 'Agak terlambat', 'No, late': 'Tidak, terlambat',
     'Check soon': 'Cek segera', 'Act now': 'Segera bertindak', 'Mostly': 'Hampir semua', 'Needs fixing': 'Perlu perbaikan', 'All checks passed': 'Semua pemeriksaan lolos',
-    'Got it': 'Mengerti', 'What happens now': 'Yang terjadi sekarang', 'Payment for this step': 'Pembayaran tahap ini', 'Builder says:': 'Kata kontraktor:',
+    'Got it': 'Mengerti', 'New': 'Baru', 'days to move-in': 'hari lagi pindah',
+    'start with your next move above. Green dots mean all fine. Tap a picture circle to learn each building step.': 'mulai dari langkah berikutnya di atas. Titik hijau berarti aman. Ketuk lingkaran bergambar untuk memahami setiap tahap.', 'Tip:': 'Tips:', 'What happens now': 'Yang terjadi sekarang', 'Payment for this step': 'Pembayaran tahap ini', 'Builder says:': 'Kata kontraktor:',
     'Review and approve payment': 'Tinjau dan setujui pembayaran', 'Sign off this step': 'Setujui tahap ini',
     'Nothing to do. You’re all caught up.': 'Tidak ada yang perlu dilakukan. Semua beres.', 'We’ll show it here the moment something needs you.': 'Kami tampilkan di sini begitu ada yang perlu Anda.',
     'Your builder’s photos and notes will appear here.': 'Foto dan catatan kontraktor akan muncul di sini.', 'Right now:': 'Sekarang:', 'All steps done 🎉': 'Semua tahap selesai 🎉',
@@ -4870,7 +4914,7 @@ button.fd-ev:disabled { cursor: default; opacity: 1; }
     [/^Engineer found problems in (.+)$/, 'Insinyur menemukan masalah di $1'], [/^Payment sent for (.+)$/, 'Pembayaran dikirim untuk $1'],
     [/^(\d+)-day streak$/, '$1 hari berturut-turut'], [/^(\d+) to fix$/, '$1 perlu diperbaiki'], [/^(\d+)\/(\d+) checks passed$/, '$1/$2 pemeriksaan lolos'],
     [/^paid of (.+)$/, 'dibayar dari $1'], [/^step (\d+) of (\d+)$/, 'tahap $1 dari $2'], [/^\(step (\d+) of (\d+)\)$/, '(tahap $1 dari $2)'], [/^Step (\d+) of (\d+)$/, 'Tahap $1 dari $2'],
-    [/^Then (\d+) more things?$/, 'Lalu $1 hal lagi'], [/^(\d+) small things? to fix$/, '$1 hal kecil perlu diperbaiki'], [/^(.+) paid of (.+)$/, '$1 dibayar dari $2']
+    [/^Then (\d+) more things?$/, 'Lalu $1 hal lagi'], [/^(\d+) new updates? since you last looked$/, '$1 update baru sejak terakhir Anda lihat'], [/^Send (.+) by (.+)$/, 'Kirim $1 sebelum $2'], [/^Send (.+)$/, 'Kirim $1'], [/^(\d+) small things? to fix$/, '$1 hal kecil perlu diperbaiki'], [/^(.+) paid of (.+)$/, '$1 dibayar dari $2']
   );
 
   boot();
