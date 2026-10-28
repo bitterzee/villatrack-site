@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Pay your Bali contractor only for verified work. Independent engineer inspections before every payment.">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+<title>VillaTrack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112..125,600..900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a site-book page. Left-aligned editorial column, a live payment ledger as the hero, ruled sections like a contractor's progress report. */
+:root{
+  --bg:#EDEFEA; --surface:#F8F9F6; --ink:#17201D; --muted:#56615C; --line:#C9CFC8;
+  --accent:#1F45C8; --accent-ink:#FFFFFF; --ok:#1E7A4C; --hold:#B4531A; --okbg:#DCEFE3; --holdbg:#F6E3D6;
+  --display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#121816; --surface:#1A2220; --ink:#E6EBE7; --muted:#9AA6A0; --line:#2F3A36;
+  --accent:#7D9BFF; --accent-ink:#0D1430; --ok:#5FCB91; --hold:#F0A06B; --okbg:#173326; --holdbg:#3A2416; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121816; --surface:#1A2220; --ink:#E6EBE7; --muted:#9AA6A0; --line:#2F3A36;
+  --accent:#7D9BFF; --accent-ink:#0D1430; --ok:#5FCB91; --hold:#F0A06B; --okbg:#173326; --holdbg:#3A2416; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.6 var(--body);margin:0}
+body.lang-en [lang="id"], body.lang-id [lang="en"]{display:none!important}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);font-stretch:118%;line-height:1.08;text-wrap:balance;margin:0}
+h1{font-size:clamp(2.2rem,5.4vw,3.7rem);font-weight:850;letter-spacing:-.01em}
+h2{font-size:clamp(1.6rem,3.4vw,2.3rem);font-weight:800}
+h3{font-size:1.12rem;font-weight:750}
+p{margin:0;max-width:62ch}
+a{color:var(--accent)}
+.eyebrow{font:500 .76rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* header */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:12px}
+.logo{font:850 1.2rem/1 var(--display);font-stretch:125%;display:flex;align-items:center;gap:8px;color:var(--ink);text-decoration:none}
+.logo i{width:14px;height:14px;border:3px solid var(--accent);display:inline-block;transform:rotate(45deg)}
+.bar nav{display:flex;align-items:center;gap:18px}
+.bar nav a.lnk{color:var(--muted);text-decoration:none;font-size:.92rem}
+.bar nav a.lnk:hover{color:var(--ink)}
+.lang{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.lang button{font:500 .78rem/1 var(--mono);padding:7px 10px;border:0;background:transparent;color:var(--muted);cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+@media (max-width:720px){.bar nav a.lnk{display:none}}
+
+.btn{display:inline-flex;align-items:center;gap:8px;font:600 1rem/1 var(--body);padding:14px 20px;border-radius:6px;border:0;background:var(--accent);color:var(--accent-ink);text-decoration:none;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;padding-block:56px 64px}
+.hero > *{min-width:0}
+.hero .lead{font-size:1.15rem;color:var(--muted);margin-top:18px}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.hero .fine{margin-top:16px;font-size:.86rem;color:var(--muted)}
+@media (max-width:860px){.hero{grid-template-columns:1fr;gap:36px;padding-block:36px 48px}}
+
+.ledger{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;box-shadow:0 18px 40px -28px rgba(0,0,0,.35)}
+.ledger-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-bottom:12px;border-bottom:1px dashed var(--line)}
+.ledger-head b{font:700 1rem/1.2 var(--display);font-stretch:112%}
+.ledger-head span{font:.74rem var(--mono);color:var(--muted)}
+.prog{margin:14px 0 4px;font:.78rem var(--mono);color:var(--muted);display:flex;justify-content:space-between}
+.track{position:relative;height:10px;background:var(--bg);border-radius:5px;overflow:hidden}
+.track .paid{position:absolute;inset:0 auto 0 0;width:58%;background:var(--accent);opacity:.35}
+.track .built{position:absolute;inset:0 auto 0 0;width:52%;background:var(--accent)}
+.legend{display:flex;gap:16px;font:.72rem var(--mono);color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px;background:var(--accent)}
+.legend i.p{opacity:.35}
+.rows{list-style:none;margin:14px 0 0;padding:0;display:grid}
+.rows li{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:12px 0;border-top:1px solid var(--line)}
+.rows .n{font-weight:600}
+.rows .d{font:.76rem var(--mono);color:var(--muted)}
+.rows .amt{font:500 .92rem var(--mono);font-variant-numeric:tabular-nums;text-align:right}
+.pill{justify-self:end;font:600 .7rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:5px 8px;border-radius:4px}
+.pill.ok{background:var(--okbg);color:var(--ok)}
+.pill.hold{background:var(--holdbg);color:var(--hold)}
+.pill.wait{background:var(--bg);color:var(--muted)}
+.ledger .note{margin-top:12px;font-size:.84rem;color:var(--hold);border-left:3px solid var(--hold);padding-left:10px}
+.sample{display:block;margin-top:10px;font:.7rem var(--mono);color:var(--muted)}
+
+/* sections */
+section{padding-block:64px;border-top:1px solid var(--line)}
+.sec-head{display:grid;gap:12px;margin-bottom:36px}
+.sec-head p{color:var(--muted);font-size:1.05rem}
+
+.pains{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.pains > div{display:grid;gap:8px;align-content:start;min-width:0}
+.pains .big{font:800 2.1rem/1 var(--display);font-stretch:125%;color:var(--hold)}
+.pains p{color:var(--muted)}
+@media (max-width:760px){.pains{grid-template-columns:1fr}}
+
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;counter-reset:s;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+.steps > div{padding:24px;display:grid;gap:10px;align-content:start;border-left:1px solid var(--line);min-width:0}
+.steps > div:first-child{border-left:0}
+.steps .k{font:500 .76rem var(--mono);color:var(--accent);letter-spacing:.08em}
+.steps p{color:var(--muted);font-size:.96rem}
+@media (max-width:760px){.steps{grid-template-columns:1fr}.steps > div{border-left:0;border-top:1px solid var(--line)}.steps > div:first-child{border-top:0}}
+.rule{margin-top:24px;font:600 1.05rem/1.4 var(--display);font-stretch:112%}
+
+.feats{display:grid;grid-template-columns:repeat(2,1fr);gap:0 40px}
+.feats > div{display:grid;grid-template-columns:28px 1fr;gap:4px 12px;padding:18px 0;border-top:1px solid var(--line);min-width:0}
+.feats .tick{grid-row:span 2;width:20px;height:20px;border:2px solid var(--accent);border-radius:4px;margin-top:2px;position:relative}
+.feats .tick::after{content:"";position:absolute;left:5px;top:1px;width:5px;height:10px;border:solid var(--accent);border-width:0 2px 2px 0;transform:rotate(45deg)}
+.feats p{color:var(--muted);font-size:.95rem}
+@media (max-width:760px){.feats{grid-template-columns:1fr}}
+
+.prices{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.price{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:28px;display:grid;gap:14px;align-content:start;min-width:0}
+.price.main{border:2px solid var(--accent)}
+.price .amt{font:800 2.2rem/1 var(--display);font-stretch:118%;font-variant-numeric:tabular-nums}
+.price .amt small{font:500 .9rem var(--body);color:var(--muted);margin-left:6px}
+.price ul{margin:0;padding-left:18px;color:var(--muted);display:grid;gap:6px}
+@media (max-width:760px){.prices{grid-template-columns:1fr}}
+.math{margin-top:20px;font-size:.92rem;color:var(--muted)}
+
+.faq{display:grid;gap:0;max-width:760px}
+.faq details{border-top:1px solid var(--line);padding:16px 0}
+.faq summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:16px}
+.faq summary::after{content:"+";font:500 1.2rem/1 var(--mono);color:var(--muted)}
+.faq details[open] summary::after{content:"–"}
+.faq details p{margin-top:10px;color:var(--muted)}
+
+/* waitlist */
+.join{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px}
+.join > *{min-width:0}
+@media (max-width:860px){.join{grid-template-columns:1fr;gap:28px}}
+form{display:grid;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:24px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:520px){.row2{grid-template-columns:1fr}}
+label{display:grid;gap:6px;font-size:.88rem;font-weight:500}
+input,select{font:inherit;padding:11px 12px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);width:100%}
+.status{font-size:.92rem;min-height:1.4em}
+.status.ok{color:var(--ok)} .status.err{color:var(--hold)}
+.preview-note{font-size:.85rem;color:var(--muted)}
+
+footer{border-top:1px solid var(--line);padding-block:28px 40px;color:var(--muted);font-size:.85rem}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+@media (prefers-reduced-motion:no-preference){.track .built{animation:grow 1.2s ease-out both}@keyframes grow{from{width:0}}}
+</style>
+
+</head>
+<body class="lang-en">
+<header>
+  <div class="wrap bar">
+    <a class="logo" href="#top"><i aria-hidden="true"></i>VillaTrack</a>
+    <nav aria-label="Main">
+      <a class="lnk" href="#how"><span lang="en">How it works</span><span lang="id">Cara kerja</span></a>
+      <a class="lnk" href="#pricing"><span lang="en">Pricing</span><span lang="id">Harga</span></a>
+      <a class="lnk" href="#faq">FAQ</a>
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" id="btn-en" aria-pressed="true">EN</button>
+        <button type="button" id="btn-id" aria-pressed="false">ID</button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap hero">
+    <div>
+      <p class="eyebrow"><span lang="en">For owners building in Bali</span><span lang="id">Untuk pemilik yang membangun di Bali</span></p>
+      <h1 style="margin-top:14px"><span lang="en">Pay your contractor only for work that's actually built.</span><span lang="id">Bayar kontraktor hanya untuk pekerjaan yang benar-benar selesai.</span></h1>
+      <p class="lead"><span lang="en">VillaTrack keeps your contract, payment schedule and site progress in one place. Before each payment, a local engineer checks the site and tells you whether the work matches what you're being asked to pay for.</span><span lang="id">VillaTrack menyimpan kontrak, jadwal termin, dan progres proyek Anda di satu tempat. Sebelum setiap pembayaran, insinyur lokal memeriksa lokasi dan memberi tahu apakah pekerjaan sesuai dengan tagihan.</span></p>
+      <div class="ctas">
+        <a class="btn" href="#join"><span lang="en">Join the early-owner list</span><span lang="id">Daftar sebagai pemilik awal</span></a>
+        <a class="btn ghost" href="#how"><span lang="en">See how it works</span><span lang="id">Lihat cara kerjanya</span></a>
+      </div>
+      <p class="fine"><span lang="en">Built by an engineer who is building his own villa in Pererenan.</span><span lang="id">Dibuat oleh seorang insinyur yang sedang membangun villanya sendiri di Pererenan.</span></p>
+    </div>
+
+    <div class="ledger" aria-label="Example payment ledger">
+      <div class="ledger-head">
+        <b><span lang="en">Villa, 3 bed · Pererenan</span><span lang="id">Villa 3 kamar · Pererenan</span></b>
+        <span>KONTRAK Rp 2.400.000.000</span>
+      </div>
+      <div class="prog"><span lang="en">Progress vs paid</span><span lang="id">Progres vs dibayar</span><span>52% / 58%</span></div>
+      <div class="track" role="img" aria-label="52% built, 58% paid"><div class="paid"></div><div class="built"></div></div>
+      <div class="legend"><span><i></i><span lang="en">Built (verified)</span><span lang="id">Terbangun (terverifikasi)</span></span><span><i class="p"></i><span lang="en">Paid</span><span lang="id">Dibayar</span></span></div>
+      <ul class="rows">
+        <li><span class="n"><span lang="en">Termin 2 · Foundation &amp; slab</span><span lang="id">Termin 2 · Pondasi &amp; plat</span></span><span class="amt">Rp 360.000.000</span><span class="d"><span lang="en">Inspected 12 Aug · 18 photos</span><span lang="id">Diperiksa 12 Agu · 18 foto</span></span><span class="pill ok">Verified</span></li>
+        <li><span class="n"><span lang="en">Termin 3 · Columns &amp; walls</span><span lang="id">Termin 3 · Kolom &amp; dinding</span></span><span class="amt">Rp 480.000.000</span><span class="d"><span lang="en">Inspected 14 Oct · 2 issues</span><span lang="id">Diperiksa 14 Okt · 2 temuan</span></span><span class="pill hold">Hold</span></li>
+        <li><span class="n"><span lang="en">Termin 4 · Roof structure</span><span lang="id">Termin 4 · Struktur atap</span></span><span class="amt">Rp 360.000.000</span><span class="d"><span lang="en">Not yet due</span><span lang="id">Belum jatuh tempo</span></span><span class="pill wait">Pending</span></li>
+      </ul>
+      <p class="note"><span lang="en">Engineer: upper ring beam not poured on the east side. Hold Termin 3 until it's done.</span><span lang="id">Insinyur: ring balok atas sisi timur belum dicor. Tahan Termin 3 sampai selesai.</span></p>
+      <span class="sample"><span lang="en">Example project for illustration</span><span lang="id">Contoh proyek untuk ilustrasi</span></span>
+    </div>
+  </div>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow"><span lang="en">The problem</span><span lang="id">Masalahnya</span></p>
+        <h2><span lang="en">Owners pay ahead of the work, from far away.</span><span lang="id">Pemilik membayar di depan pekerjaan, dari jauh.</span></h2>
+        <p><span lang="en">We read hundreds of posts in Bali owner and expat groups. The same three stories come up again and again.</span><span lang="id">Kami membaca ratusan unggahan di grup pemilik dan ekspat Bali. Tiga cerita yang sama terus berulang.</span></p>
+      </div>
+      <div class="pains">
+        <div><span class="big">70 / 40</span><h3><span lang="en">Paid 70%, built 40%</span><span lang="id">Dibayar 70%, terbangun 40%</span></h3><p><span lang="en">Payment schedules run on dates, not progress. By the time an owner visits, most of the money is gone.</span><span lang="id">Jadwal termin mengikuti tanggal, bukan progres. Saat pemilik datang, sebagian besar uang sudah keluar.</span></p></div>
+        <div><span class="big">WA</span><h3><span lang="en">Updates are a few WhatsApp photos</span><span lang="id">Laporan hanya beberapa foto WhatsApp</span></h3><p><span lang="en">Photos show the good angle. They don't show missing rebar, thin walls or a skipped ring beam.</span><span lang="id">Foto menunjukkan sudut terbaik. Tidak terlihat besi kurang, dinding tipis, atau ring balok yang dilewati.</span></p></div>
+        <div><span class="big">0</span><h3><span lang="en">No independent check</span><span lang="id">Tidak ada pemeriksaan independen</span></h3><p><span lang="en">The person telling you the work is done is the person being paid for it.</span><span lang="id">Orang yang bilang pekerjaan selesai adalah orang yang dibayar untuk itu.</span></p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow"><span lang="en">How it works</span><span lang="id">Cara kerja</span></p>
+        <h2><span lang="en">Every payment gets checked first.</span><span lang="id">Setiap pembayaran diperiksa dulu.</span></h2>
+      </div>
+      <div class="steps">
+        <div><span class="k">STEP 1</span><h3><span lang="en">Load your contract</span><span lang="id">Masukkan kontrak Anda</span></h3><p><span lang="en">Add your RAB and termin schedule. VillaTrack turns each payment into a milestone with a clear "done" description.</span><span lang="id">Tambahkan RAB dan jadwal termin. VillaTrack mengubah setiap pembayaran menjadi milestone dengan definisi "selesai" yang jelas.</span></p></div>
+        <div><span class="k">STEP 2</span><h3><span lang="en">Book an inspection</span><span lang="id">Pesan inspeksi</span></h3><p><span lang="en">When your contractor asks for the next payment, book a site visit. A vetted local engineer checks the work against the milestone and uploads photos and findings.</span><span lang="id">Saat kontraktor meminta termin berikutnya, pesan kunjungan lokasi. Insinyur lokal terverifikasi memeriksa pekerjaan sesuai milestone dan mengunggah foto serta temuan.</span></p></div>
+        <div><span class="k">STEP 3</span><h3><span lang="en">Pay, or hold</span><span lang="id">Bayar, atau tahan</span></h3><p><span lang="en">You get a clear Verified or Hold result with the reasons. You decide whether to release the payment. Everything is kept in one record.</span><span lang="id">Anda mendapat hasil Verified atau Hold beserta alasannya. Anda yang memutuskan apakah termin dibayar. Semua tersimpan dalam satu catatan.</span></p></div>
+      </div>
+      <p class="rule"><span lang="en">The rule: pay only for verified work.</span><span lang="id">Aturannya: bayar hanya untuk pekerjaan yang terverifikasi.</span></p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow"><span lang="en">What you get at launch</span><span lang="id">Yang Anda dapatkan saat peluncuran</span></p>
+        <h2><span lang="en">A simple owner app, with real people on site.</span><span lang="id">Aplikasi pemilik yang sederhana, dengan orang nyata di lokasi.</span></h2>
+      </div>
+      <div class="feats">
+        <div><span class="tick" aria-hidden="true"></span><h3><span lang="en">Payment schedule tracker</span><span lang="id">Pelacak jadwal termin</span></h3><p><span lang="en">See what you've paid against what's been built, in rupiah, at a glance.</span><span lang="id">Lihat yang sudah dibayar dibanding yang sudah terbangun, dalam rupiah.</span></p></div>
+        <div><span class="tick" aria-hidden="true"></span><h3><span lang="en">Engineer inspection reports</span><span lang="id">Laporan inspeksi insinyur</span></h3><p><span lang="en">Dated, geotagged photos and a checklist for each milestone.</span><span lang="id">Foto bertanggal dan berlokasi, plus checklist untuk setiap milestone.</span></p></div>
+        <div><span class="tick" aria-hidden="true"></span><h3><span lang="en">Verified or Hold, before you pay</span><span lang="id">Verified atau Hold, sebelum membayar</span></h3><p><span lang="en">A plain answer to "should I pay this invoice?" with the reasons listed.</span><span lang="id">Jawaban jelas untuk "apakah tagihan ini perlu dibayar?" beserta alasannya.</span></p></div>
+        <div><span class="tick" aria-hidden="true"></span><h3><span lang="en">Document vault</span><span lang="id">Arsip dokumen</span></h3><p><span lang="en">Contract, RAB, PBG permit, drawings and receipts in one place.</span><span lang="id">Kontrak, RAB, PBG, gambar kerja, dan kuitansi di satu tempat.</span></p></div>
+        <div><span class="tick" aria-hidden="true"></span><h3><span lang="en">English and Bahasa</span><span lang="id">Inggris dan Bahasa</span></h3><p><span lang="en">You read in English. Your contractor and engineer work in Bahasa Indonesia.</span><span lang="id">Anda membaca dalam bahasa Inggris. Kontraktor dan insinyur bekerja dalam Bahasa Indonesia.</span></p></div>
+        <div><span class="tick" aria-hidden="true"></span><h3><span lang="en">Issue log</span><span lang="id">Catatan temuan</span></h3><p><span lang="en">Every defect found stays open until it's fixed and checked again.</span><span lang="id">Setiap cacat yang ditemukan tetap terbuka sampai diperbaiki dan diperiksa ulang.</span></p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow"><span lang="en">Pricing</span><span lang="id">Harga</span></p>
+        <h2><span lang="en">Small next to what's at stake.</span><span lang="id">Kecil dibanding nilai yang dipertaruhkan.</span></h2>
+      </div>
+      <div class="prices">
+        <div class="price main">
+          <h3><span lang="en">Owner subscription</span><span lang="id">Langganan pemilik</span></h3>
+          <div class="amt">Rp 990.000<small><span lang="en">/ month</span><span lang="id">/ bulan</span></small></div>
+          <ul>
+            <li><span lang="en">One build project</span><span lang="id">Satu proyek pembangunan</span></li>
+            <li><span lang="en">Payment tracker, document vault, issue log</span><span lang="id">Pelacak termin, arsip dokumen, catatan temuan</span></li>
+            <li><span lang="en">Cancel when your build is finished</span><span lang="id">Berhenti kapan saja setelah proyek selesai</span></li>
+          </ul>
+        </div>
+        <div class="price">
+          <h3><span lang="en">Site inspection</span><span lang="id">Inspeksi lokasi</span></h3>
+          <div class="amt">Rp 2.500.000<small><span lang="en">/ visit</span><span lang="id">/ kunjungan</span></small></div>
+          <ul>
+            <li><span lang="en">Book before each payment you want checked</span><span lang="id">Pesan sebelum setiap termin yang ingin diperiksa</span></li>
+            <li><span lang="en">Vetted local engineer, report in 48 hours</span><span lang="id">Insinyur lokal terverifikasi, laporan dalam 48 jam</span></li>
+            <li><span lang="en">Verified or Hold result with photos</span><span lang="id">Hasil Verified atau Hold dengan foto</span></li>
+          </ul>
+        </div>
+      </div>
+      <p class="math"><span lang="en">Example: a 14-month build with 5 inspections costs about Rp 26 juta in total. On a Rp 2,4 miliar contract, that's about 1%.</span><span lang="id">Contoh: proyek 14 bulan dengan 5 inspeksi menghabiskan sekitar Rp 26 juta. Untuk kontrak Rp 2,4 miliar, itu sekitar 1%.</span></p>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">FAQ</p>
+        <h2><span lang="en">Common questions</span><span lang="id">Pertanyaan umum</span></h2>
+      </div>
+      <div class="faq">
+        <details><summary><span lang="en">Do you hold my money?</span><span lang="id">Apakah VillaTrack menyimpan uang saya?</span></summary><p><span lang="en">No. You keep paying your contractor directly. VillaTrack tells you whether the work is there before you pay.</span><span lang="id">Tidak. Anda tetap membayar kontraktor langsung. VillaTrack memberi tahu apakah pekerjaannya ada sebelum Anda membayar.</span></p></details>
+        <details><summary><span lang="en">Who are the engineers?</span><span lang="id">Siapa insinyurnya?</span></summary><p><span lang="en">Independent civil engineers based in Bali with STRA/SKK certification. They don't work for your contractor and are paid by VillaTrack, not by the builder.</span><span lang="id">Insinyur sipil independen di Bali dengan sertifikasi STRA/SKK. Mereka tidak bekerja untuk kontraktor Anda dan dibayar oleh VillaTrack, bukan oleh kontraktor.</span></p></details>
+        <details><summary><span lang="en">My build has already started. Is it too late?</span><span lang="id">Proyek saya sudah berjalan. Apakah terlambat?</span></summary><p><span lang="en">No. Start with an inspection of where the build is today, then check each payment from there.</span><span lang="id">Tidak. Mulai dengan inspeksi kondisi proyek saat ini, lalu periksa setiap termin selanjutnya.</span></p></details>
+        <details><summary><span lang="en">Will my contractor accept this?</span><span lang="id">Apakah kontraktor saya akan menerima ini?</span></summary><p><span lang="en">Good contractors usually welcome it, because a Verified result gets them paid faster and with fewer arguments.</span><span lang="id">Kontraktor yang baik biasanya menyambutnya, karena hasil Verified membuat mereka dibayar lebih cepat dan tanpa perdebatan.</span></p></details>
+        <details><summary><span lang="en">Which areas do you cover?</span><span lang="id">Area mana yang dilayani?</span></summary><p><span lang="en">At launch: Canggu, Pererenan, Seminyak, Uluwatu and Ubud. More areas as our engineer network grows.</span><span lang="id">Saat peluncuran: Canggu, Pererenan, Seminyak, Uluwatu, dan Ubud. Area lain menyusul seiring bertambahnya jaringan insinyur.</span></p></details>
+      </div>
+    </div>
+  </section>
+
+  <section id="join">
+    <div class="wrap join">
+      <div class="sec-head" style="margin:0">
+        <p class="eyebrow"><span lang="en">Early owners</span><span lang="id">Pemilik awal</span></p>
+        <h2><span lang="en">Get early access.</span><span lang="id">Dapatkan akses awal.</span></h2>
+        <p><span lang="en">We're opening VillaTrack to a small group of owners first. Early owners get their first inspection at half price.</span><span lang="id">Kami membuka VillaTrack untuk sekelompok kecil pemilik terlebih dahulu. Pemilik awal mendapat inspeksi pertama setengah harga.</span></p>
+      </div>
+      <form id="wl" novalidate>
+        <div class="row2">
+          <label for="f-name"><span><span lang="en">Name</span><span lang="id">Nama</span></span><input id="f-name" name="name" autocomplete="name" required maxlength="80"></label>
+          <label for="f-email"><span>Email</span><input id="f-email" name="email" type="email" autocomplete="email" required maxlength="120"></label>
+        </div>
+        <div class="row2">
+          <label for="f-area"><span><span lang="en">Build location</span><span lang="id">Lokasi proyek</span></span>
+            <select id="f-area" name="area">
+              <option>Canggu / Pererenan</option><option>Seminyak / Kerobokan</option><option>Uluwatu / Bukit</option><option>Ubud</option><option>Sanur</option><option value="Other">Other / Lainnya</option>
+            </select></label>
+          <label for="f-stage"><span><span lang="en">Stage</span><span lang="id">Tahap</span></span>
+            <select id="f-stage" name="stage">
+              <option value="planning">Planning / Perencanaan</option>
+              <option value="contract">Signing a contract / Tanda tangan kontrak</option>
+              <option value="building">Under construction / Sedang dibangun</option>
+            </select></label>
+        </div>
+        <label for="f-live"><span><span lang="en">Where do you live?</span><span lang="id">Anda tinggal di mana?</span></span><input id="f-live" name="live" placeholder="e.g. Melbourne, Jakarta, Bali" maxlength="80"></label>
+        <button class="btn" type="submit" id="f-submit"><span lang="en">Join the list</span><span lang="id">Daftar</span></button>
+        <p class="status" id="f-status" role="status" aria-live="polite"></p>
+        <p class="preview-note" id="f-note" hidden></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>VillaTrack · Bali, Indonesia</span>
+    <span><span lang="en">Owner-side construction control.</span><span lang="id">Kontrol konstruksi untuk pemilik.</span></span>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+(function(){
+  var body=document.body, bEn=document.getElementById('btn-en'), bId=document.getElementById('btn-id');
+  function setLang(l){
+    body.classList.toggle('lang-en',l==='en'); body.classList.toggle('lang-id',l==='id');
+    document.documentElement.lang=l; bEn.setAttribute('aria-pressed',l==='en'); bId.setAttribute('aria-pressed',l==='id');
+    try{localStorage.setItem('vt-lang',l)}catch(e){}
+  }
+  var saved=null; try{saved=localStorage.getItem('vt-lang')}catch(e){}
+  if(!saved){ var nl=(navigator.language||'').toLowerCase(); if(nl.indexOf('id')===0) saved='id'; }
+  setLang(saved==='id'?'id':'en');
+  bEn.addEventListener('click',function(){setLang('en')});
+  bId.addEventListener('click',function(){setLang('id')});
+
+  var form=document.getElementById('wl'), st=document.getElementById('f-status'), note=document.getElementById('f-note'), btn=document.getElementById('f-submit');
+  // Supabase settings: paste your project URL and anon (public) key here.
+  var SUPABASE_URL='YOUR_SUPABASE_URL', SUPABASE_ANON_KEY='YOUR_SUPABASE_ANON_KEY';
+  var sb=null;
+  if(window.supabase && SUPABASE_URL.indexOf('http')===0){ sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY); }
+  form.addEventListener('submit',async function(e){
+    e.preventDefault();
+    st.className='status';
+    var name=form.name.value.trim(), email=form.email.value.trim();
+    if(!name||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+      st.className='status err'; st.textContent=t('Enter your name and a valid email address.','Masukkan nama dan alamat email yang valid.'); return;
+    }
+    if(!sb){ st.className='status err'; st.textContent=t('Your details were not saved.','Data Anda belum tersimpan.'); noSave(); return; }
+    btn.disabled=true; st.textContent=t('Saving…','Menyimpan…');
+    try{
+      var res=await sb.from('waitlist').insert({name:name,email:email,area:form.area.value,stage:form.stage.value,live:form.live.value.trim().slice(0,80),lang:body.classList.contains('lang-id')?'id':'en',});
+      if(res.error) throw res.error;
+      st.className='status ok'; st.textContent=t("You're on the list. We'll email you when early access opens.",'Anda sudah terdaftar. Kami akan mengirim email saat akses awal dibuka.');
+      form.reset();
+    }catch(err){
+      st.className='status err'; st.textContent=t('Your details were not saved.','Data Anda belum tersimpan.'); noSave();
+    }finally{ btn.disabled=false; }
+  });
+})();
+</script>
+
+</body>
+</html>
